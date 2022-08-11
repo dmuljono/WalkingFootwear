@@ -39,7 +39,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 					new UsernameNotFoundException("Manager Not Found with email: " + email));
 			return UserDetailsImpl.build(employee);
 		} catch (UsernameNotFoundException e) {
-			throw new UsernameNotFoundException("No Manager or Customer found with email: " + email);
+			throw new UsernameNotFoundException("No Manager, Employee, or Customer found with email: " + email);
 		}
 		
 

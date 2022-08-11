@@ -48,7 +48,7 @@ import jor.empapp.security.jwt.JwtUtils;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
-@RequestMapping("/api/test")
+@RequestMapping("/api/tester")
 public class TestController {
 	@Autowired
 	AuthenticationManager authenticationManager;

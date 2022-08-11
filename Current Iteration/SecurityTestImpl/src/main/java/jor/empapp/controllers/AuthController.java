@@ -88,7 +88,7 @@ public class AuthController {
 
 		return ResponseEntity.ok(new JwtResponse(jwt, 
 												 userDetails.getId(), 
-												 userDetails.getUsername(), 
+												 userDetails.getFirstName(), 
 												 userDetails.getEmail(), 
 												 roles));
 	}
@@ -114,7 +114,7 @@ public class AuthController {
 		System.out.println(strRole);
 		
 		
-		if(strRole=="customer") {
+		if(strRole.contentEquals("customer")) {
 			System.out.println("Done1");
 			CustomerRole customerRole = customerRoleRepository.findByName(
 					ERole.CUSTOMER)
@@ -131,7 +131,7 @@ public class AuthController {
 			customerRepository.save(newCustomer);
 			return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
 		}
-		else if(strRole=="employee") {
+		else if(strRole.contentEquals("employee")) {
 			System.out.println("Done2");
 			EmployeeRole employeeRole = employeeRoleRepository.findByName(
 					ERole.EMPLOYEE)
@@ -186,5 +186,12 @@ public class AuthController {
 			return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
 		}
 	}
+	
+	@PostMapping("/signout")
+	  public ResponseEntity<?> logoutUser() {
+		
+	   // ResponseCookie cookie = jwtUtils.getCleanJwtCookie();
+	    return ResponseEntity.ok(new MessageResponse("You've been signed out!"));
+	  }
 		
 }

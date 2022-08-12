@@ -89,7 +89,10 @@ public class TestController {
 	ProductCategory pcCurrent;
 	
 	Product pCurrent;
-
+	
+	//Implement AOP Loggers
+	//SwaggerUI Documentation
+	//Junit testing
 
 	@GetMapping("/addProduct")
 	public String addProduct() {

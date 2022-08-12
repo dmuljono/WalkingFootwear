@@ -2,7 +2,6 @@ package jor.empapp.controllers;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -17,14 +16,16 @@ import org.springframework.web.bind.annotation.RestController;
 import jor.empapp.models.Customer;
 import jor.empapp.models.Employee;
 import jor.empapp.models.Product;
+import jor.empapp.models.ProductCategory;
 import jor.empapp.repositorys.CustomerRepository;
 import jor.empapp.repositorys.EmployeeRepository;
+import jor.empapp.repositorys.ProductCategoryRepository;
 import jor.empapp.repositorys.ProductRepository;
 
 @CrossOrigin
 @RestController
 @RequestMapping("/api/test")
-public class ManagerRC {
+public class ManagerController {
 	
 	@Autowired
 	private ProductRepository pr;
@@ -34,6 +35,9 @@ public class ManagerRC {
 	
 	@Autowired
 	private CustomerRepository cr;
+	
+	@Autowired
+	private ProductCategoryRepository pcr;
 	
 	
 	// Product Registration
@@ -87,22 +91,12 @@ public class ManagerRC {
 		
 		if(op.isPresent()) {
 			p = op.get();
-			System.out.println("Hello");
 		}
-		System.out.println("Hello2");
 		
 		return p;
 				
 	}
 	
-	// Find All Products
-	@GetMapping("/allProducts")
-	public List<Product> findAllProducts() {
-		List<Product> ps = pr.findAll();
-		
-		return ps;
-		
-	}
 	// Employee View
 	@GetMapping("/employees/{id}")
 	public Employee findEmployee(@PathVariable long id) {
@@ -128,4 +122,48 @@ public class ManagerRC {
 		return msg;
 	}
 	
+	//New Order Request
+	@GetMapping("/addStock/{id}/{amount}")
+	public String addStock(@PathVariable long id, @PathVariable int amount) {
+		String msg = "";
+		try {
+			Product product = pr.findById(id).get();
+			product.setUnitsInStock(amount);
+			msg = "Stocks updated";
+		} catch (Exception e) {
+			msg = "Could not find ID";
+			e.printStackTrace();
+		}
+		return msg;
+	}
+	
+	//View All Employees
+		@GetMapping("/allProducts")
+		public List<Product> findAllProducts() {
+			List<Product> ps = pr.findAll();
+			
+			return ps;
+			
+		}
+
+	//View All Orders
+	
+	//View Feedback
+	
+	//Add ProductCategory
+	@GetMapping("/addProductCategory/{name}")
+	public String addProductCategory(@PathVariable String name) {
+		String msg ="";
+		
+		try {
+			ProductCategory pc = new ProductCategory();
+			pc.setCategoryName(name);
+			pcr.save(pc);
+			msg = "Successfully added Product Category:" +name;
+		} catch (Exception e) {
+			msg="Error adding Product Category";
+			e.printStackTrace();
+		}
+		return msg;
+	}
 }

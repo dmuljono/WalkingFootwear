@@ -1,6 +1,8 @@
 package jor.empapp.controllers;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -22,7 +24,7 @@ import jor.empapp.repositorys.ProductRepository;
 @CrossOrigin
 @RestController
 @RequestMapping("/api/test")
-public class ManagerController {
+public class ManagerRC {
 	
 	@Autowired
 	private ProductRepository pr;
@@ -85,12 +87,22 @@ public class ManagerController {
 		
 		if(op.isPresent()) {
 			p = op.get();
+			System.out.println("Hello");
 		}
+		System.out.println("Hello2");
 		
 		return p;
 				
 	}
 	
+	// Find All Products
+	@GetMapping("/allProducts")
+	public List<Product> findAllProducts() {
+		List<Product> ps = pr.findAll();
+		
+		return ps;
+		
+	}
 	// Employee View
 	@GetMapping("/employees/{id}")
 	public Employee findEmployee(@PathVariable long id) {
@@ -115,27 +127,5 @@ public class ManagerController {
 		}
 		return msg;
 	}
-	
-	//New Order Request
-	@GetMapping("/addStock/{id}/{amount}")
-	public String addStock(@PathVariable long id, @PathVariable int amount) {
-		String msg = "";
-		try {
-			Product product = pr.findById(id).get();
-			product.setUnitsInStock(amount);
-			msg = "Stocks updated";
-		} catch (Exception e) {
-			msg = "Could not find ID";
-			e.printStackTrace();
-		}
-		return msg;
-	}
-	
-	//View All Employees
-
-	//View All Orders
-	
-	//View Feedback
-	
 	
 }

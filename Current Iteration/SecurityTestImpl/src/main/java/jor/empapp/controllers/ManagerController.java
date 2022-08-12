@@ -116,4 +116,26 @@ public class ManagerController {
 		return msg;
 	}
 	
+	//New Order Request
+	@GetMapping("/addStock/{id}/{amount}")
+	public String addStock(@PathVariable long id, @PathVariable int amount) {
+		String msg = "";
+		try {
+			Product product = pr.findById(id).get();
+			product.setUnitsInStock(amount);
+			msg = "Stocks updated";
+		} catch (Exception e) {
+			msg = "Could not find ID";
+			e.printStackTrace();
+		}
+		return msg;
+	}
+	
+	//View All Employees
+
+	//View All Orders
+	
+	//View Feedback
+	
+	
 }

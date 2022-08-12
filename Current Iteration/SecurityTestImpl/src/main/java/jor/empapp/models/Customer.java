@@ -6,8 +6,11 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -18,13 +21,15 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 @Entity
 @Table(name="Customer", uniqueConstraints = {@UniqueConstraint(columnNames = "email") })
 public class Customer{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	Long customerID;
+	@Column(name="customer_id")
+	Long customerId;
 	@NotBlank
 	@Size(max = 20)
 	String firstName;
@@ -46,13 +51,11 @@ public class Customer{
 	@JoinTable(name = "customer_roles", joinColumns = @JoinColumn(name = "customer_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
 	private Set<CustomerRole> roles;
 	
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "customer")
+	@JsonBackReference
+	private Set<OrderForm> orders;
 	
-	public Long getID() {
-		return customerID;
-	}
-	public void setID(Long customerID) {
-		this.customerID = customerID;
-	}
+	
 	public String getFirstName() {
 		return firstName;
 	}
@@ -90,10 +93,10 @@ public class Customer{
 		this.password = password;
 	}
 	public Long getCustomerID() {
-		return customerID;
+		return customerId;
 	}
 	public void setCustomerID(Long customerID) {
-		this.customerID = customerID;
+		this.customerId = customerID;
 	}
 	public Set<CustomerRole> getRoles() {
 		return roles;
@@ -101,8 +104,20 @@ public class Customer{
 	public void setRoles(Set<CustomerRole> roles) {
 		this.roles = roles;
 	}
+	public Long getCustomerId() {
+		return customerId;
+	}
+	public void setCustomerId(Long customerId) {
+		this.customerId = customerId;
+	}
+	public Set<OrderForm> getOrders() {
+		return orders;
+	}
+	public void setOrders(Set<OrderForm> orders) {
+		this.orders = orders;
+	}
 
-
+	
 	
 	
 	

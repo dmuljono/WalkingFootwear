@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import jor.empapp.payload.request.LoginRequest;
+import jor.empapp.payload.request.ReturnRequest;
 import jor.empapp.payload.response.JwtResponse;
 import jor.empapp.repositorys.CustomerRepository;
 import jor.empapp.repositorys.CustomerRoleRepository;
@@ -33,6 +34,7 @@ import jor.empapp.repositorys.EmployeeRoleRepository;
 import jor.empapp.repositorys.OrderFormRepository;
 import jor.empapp.repositorys.ProductCategoryRepository;
 import jor.empapp.repositorys.ProductRepository;
+import jor.empapp.repositorys.ReturnOrderRepository;
 import jor.empapp.security.services.UserDetailsImpl;
 import jor.empapp.models.Customer;
 import jor.empapp.models.CustomerRole;
@@ -42,13 +44,14 @@ import jor.empapp.models.EmployeeRole;
 import jor.empapp.models.OrderForm;
 import jor.empapp.models.Product;
 import jor.empapp.models.ProductCategory;
+import jor.empapp.models.ReturnOrder;
 import jor.empapp.payload.request.SignupRequest;
 import jor.empapp.payload.response.MessageResponse;
 import jor.empapp.security.jwt.JwtUtils;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
-@RequestMapping("/api/tester")
+@RequestMapping("/api/test")
 public class TestController {
 	@Autowired
 	AuthenticationManager authenticationManager;
@@ -75,6 +78,9 @@ public class TestController {
 	OrderFormRepository orderFormRepository;
 	
 	@Autowired
+	ReturnOrderRepository returnOrderRepository;
+	
+	@Autowired
 	PasswordEncoder encoder;
 	
 	@Autowired
@@ -95,7 +101,7 @@ public class TestController {
 		p.setImageUrl("img.url");
 		p.setUnitsInStock(10);
 		p.setDescription("Nothing Much");
-		p.setCategory(pcCurrent);
+		p.setCategory(categoryRepository.findByCategoryName("Books"));
 		pCurrent = p;
 		productRepository.save(p);
 		return "Yes";
@@ -114,15 +120,44 @@ public class TestController {
 	@GetMapping("/testOrderForm")
 	public String testOrderForm() {
 		OrderForm of = new OrderForm();
+		Long cusId = (long) 1;
+		pCurrent = productRepository.findById(cusId).get();
 		of.setProduct(pCurrent);
 		of.setQuantity(10);
 		long price = of.getProduct().getUnitPrice().longValue();
 		int quantity = of.getQuantity();
 		long total = price*quantity;
 		of.setTotalAmount(total);
+		of.setCustomer(customerRepository.findById(cusId).get());
+		Set<OrderForm> orders =customerRepository.findById(cusId).get().getOrders();
+		orders.add(of);
+		customerRepository.findById(cusId).get().setOrders(orders);
 		orderFormRepository.save(of);
-		return "Yes";
+		return "Success";
 	}
-		
+	
+	@GetMapping("/printOrders")
+	public void printOrders() {
+		Long cusId = (long) 1;
+		Customer c = customerRepository.findById(cusId).get();
+		c.getOrders().forEach((o) -> System.out.println(o.toString()));
+	}
+	
+	@PostMapping("/testReturns")
+	public String testReturns(@RequestBody ReturnRequest returnRequest) {
+		OrderForm order = orderFormRepository.findById(returnRequest.getOrderId()).get();
+		ReturnOrder returnOrder = new ReturnOrder();
+		returnOrder.setOrderId(order.getOrderId());
+		returnOrder.setCustomer(order.getCustomer());
+		returnOrder.setProduct(order.getProduct());
+		returnOrder.setPurchaseDate(order.getPurchaseDate());
+		returnOrder.setQuantity(order.getQuantity());
+		returnOrder.setTotalAmount(order.getTotalAmount());
+		returnOrder.setReasonForReturn(returnRequest.getReasonForReturn());
+		returnOrder.setReturnApproved(true);
+		returnOrderRepository.save(returnOrder);
+		orderFormRepository.deleteById(order.getOrderId());
+		return "Done";
+	}
 		
 }

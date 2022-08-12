@@ -11,6 +11,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 //import org.springframework.web.bind.annotation.CrossOrigin;
 
 
@@ -20,21 +22,24 @@ public class ProductCategory {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+	private Long categoryId;
 	
 	
 	@Column(name = "category_name")
 	private String categoryName;
 	
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "category")
+	@JsonBackReference
 	private Set<Product> products;
 
-	public Long getId() {
-		return id;
+	
+
+	public Long getCategoryId() {
+		return categoryId;
 	}
 
-	public void setId(Long id) {
-		this.id = id;
+	public void setCategoryId(Long categoryId) {
+		this.categoryId = categoryId;
 	}
 
 	public String getCategoryName() {

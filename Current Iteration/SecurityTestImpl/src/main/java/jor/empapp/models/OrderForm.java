@@ -2,6 +2,7 @@ package jor.empapp.models;
 
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -9,9 +10,13 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.CreationTimestamp;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Table(name="Orders")
@@ -22,8 +27,13 @@ public class OrderForm {
 	private Long orderId;
 	
 	@ManyToOne
-	@JoinColumn(name="product", referencedColumnName="productId", nullable=false)
+	@JoinColumn(name="product", referencedColumnName="product_id", nullable=false)
 	private Product product;
+	
+	@ManyToOne
+	@JoinColumn(name="customer", referencedColumnName="customer_id", nullable=true)
+	@JsonManagedReference
+	private Customer customer;
 	
 	@Column(name = "date_created")
     @CreationTimestamp
@@ -66,6 +76,10 @@ public class OrderForm {
 	public void setQuantity(int quantity) {
 		this.quantity = quantity;
 	}
+	
+	public void findTotalAmount() {
+		totalAmount = this.product.getUnitPrice().doubleValue()*this.quantity;
+	}
 
 	public double getTotalAmount() {
 		return totalAmount;
@@ -74,6 +88,21 @@ public class OrderForm {
 	public void setTotalAmount(double totalAmount) {
 		this.totalAmount = totalAmount;
 	}
+
+	public Customer getCustomer() {
+		return customer;
+	}
+
+	public void setCustomer(Customer customer) {
+		this.customer = customer;
+	}
+
+	@Override
+	public String toString() {
+		return "OrderForm [orderId=" + orderId + ", product=" + product + ", customer=" + customer + ", purchaseDate="
+				+ purchaseDate + ", quantity=" + quantity + ", totalAmount=" + totalAmount + "]";
+	}
+	
 	
 	
 	

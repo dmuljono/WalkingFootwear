@@ -17,11 +17,12 @@ public class Product {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "productId")
+    @Column(name = "product_id")
     private Long productId;
 
     @ManyToOne
     @JoinColumn(name = "category_id", nullable = false)
+    @JsonManagedReference
     private ProductCategory category;
 
     @Column(name = "sku")

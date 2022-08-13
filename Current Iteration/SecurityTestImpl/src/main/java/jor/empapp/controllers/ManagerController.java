@@ -23,9 +23,9 @@ import jor.empapp.repositorys.EmployeeRepository;
 import jor.empapp.repositorys.ProductCategoryRepository;
 import jor.empapp.repositorys.ProductRepository;
 
-@CrossOrigin
+@CrossOrigin(origins = "http://localhost:4200", maxAge = 3600, allowCredentials="true")
 @RestController
-@RequestMapping("/api/test")
+@RequestMapping("/api/test/manager")
 public class ManagerController {
 	
 	@Autowired
@@ -63,6 +63,20 @@ public class ManagerController {
 		}
 		return msg;
 	}
+	
+	// Product Registration
+		@PostMapping("/addProduct")
+		public String addProduct(@RequestBody Product p) {
+			String msg = "";
+			try {
+				pr.save(p);
+				msg = "Product Added Successfully";
+			} catch (Exception ex) {
+				msg = "Unable to add Product: " + ex.getMessage();
+				
+			}
+			return msg;
+		}
 	
 	// Employee Registration
 	@PostMapping("/employees")
@@ -159,6 +173,24 @@ public class ManagerController {
 	//View All Orders
 	
 	//View Feedback
+		
+	//View ByCategory ID
+		
+		// Product Registration
+		@GetMapping("/category/{id}")
+		public List<Product> addProductByCategoryId(@PathVariable long categoryId) {
+			String msg="";
+			List<Product> productList = null;
+			try {
+			productList = pr.findByCategoryId(categoryId);
+				msg = "Product Added Successfully";
+			} catch (Exception ex) {
+				msg = "Unable to add Product: " + ex.getMessage();
+				
+			}
+			
+			return productList;
+		}
 	
 	//Add ProductCategory
 	@GetMapping("/addProductCategory/{name}")

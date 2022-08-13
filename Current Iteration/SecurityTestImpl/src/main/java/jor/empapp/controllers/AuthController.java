@@ -40,7 +40,7 @@ import jor.empapp.payload.request.SignupRequest;
 import jor.empapp.payload.response.MessageResponse;
 import jor.empapp.security.jwt.JwtUtils;
 
-@CrossOrigin(origins = "*", maxAge = 3600)
+@CrossOrigin(origins = "http://localhost:4200", maxAge = 3600, allowCredentials="true")
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {

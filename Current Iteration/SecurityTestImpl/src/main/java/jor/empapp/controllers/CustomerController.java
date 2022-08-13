@@ -50,8 +50,8 @@ public class CustomerController {
 	@Autowired
 	private CancelOrderRepository cancelOrderRepository;
 	
-	@PostMapping("/placingOrder")
-	public String placingOrder(@RequestBody OrderRequest orderRequest) {
+	@PostMapping("/placingOrderTest")
+	public String placingOrderTest(@RequestBody OrderRequest orderRequest) {
 		try {
 			Optional<Product> orderedProduct = productRepository.findById(orderRequest.getProductId());
 			OrderForm orderForm = new OrderForm();
@@ -69,8 +69,8 @@ public class CustomerController {
 		}
 	}
 	
-	@PostMapping("/cancelOrder")
-	public void cancelOrder(@RequestBody ReturnRequest returnRequest) {
+	@PostMapping("/cancelOrderTest")
+	public void cancelOrderTest(@RequestBody ReturnRequest returnRequest) {
 		OrderForm order = orderFormRepository.findById(returnRequest.getOrderId()).get();
 		CancelOrder returnOrder = new CancelOrder();
 		returnOrder.setOrderId(order.getOrderId());
@@ -83,8 +83,8 @@ public class CustomerController {
 		orderFormRepository.deleteById(order.getOrderId());
 	}
 	
-	@PostMapping("/returnOrder")
-	public void returnOrder(@RequestBody ReturnRequest returnRequest) {
+	@PostMapping("/returnOrderTest")
+	public void returnOrderTest(@RequestBody ReturnRequest returnRequest) {
 		OrderForm order = orderFormRepository.findById(returnRequest.getOrderId()).get();
 		ReturnOrder returnOrder = new ReturnOrder();
 		returnOrder.setOrderId(order.getOrderId());
@@ -98,6 +98,7 @@ public class CustomerController {
 		returnOrderRepository.save(returnOrder);
 		orderFormRepository.deleteById(order.getOrderId());
 	}
+	
 	
 	//Product Search
 	

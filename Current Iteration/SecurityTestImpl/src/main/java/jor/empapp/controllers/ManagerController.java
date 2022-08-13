@@ -17,6 +17,7 @@ import jor.empapp.models.Customer;
 import jor.empapp.models.Employee;
 import jor.empapp.models.Product;
 import jor.empapp.models.ProductCategory;
+import jor.empapp.payload.request.ProductRequest;
 import jor.empapp.repositorys.CustomerRepository;
 import jor.empapp.repositorys.EmployeeRepository;
 import jor.empapp.repositorys.ProductCategoryRepository;
@@ -42,7 +43,16 @@ public class ManagerController {
 	
 	// Product Registration
 	@PostMapping("/products")
-	public String addProduct(@RequestBody Product p) {
+	public String addProductByCategoryId(@RequestBody ProductRequest preq) {
+		Product p = new Product();
+		p.setDescription(preq.getDescription());
+		p.setSku(preq.getSku());
+		p.setImageUrl(preq.getImageUrl());
+		p.setUnitPrice(preq.getUnitPrice());
+		p.setUnitsInStock(preq.getUnitsInStock());
+		p.setAvailable(preq.isAvailable());
+		p.setName(preq.getName());
+		p.setCategory(pcr.findById(preq.getCategoryId()).get());
 		String msg = "";
 		try {
 			pr.save(p);

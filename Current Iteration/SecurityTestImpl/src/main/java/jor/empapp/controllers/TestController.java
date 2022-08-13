@@ -162,5 +162,12 @@ public class TestController {
 		orderFormRepository.deleteById(order.getOrderId());
 		return "Done";
 	}
+	//view all orders
+	@GetMapping("/allOrders")
+	public List<OrderForm> findAllOrders() {
+		List<OrderForm> ofList = orderFormRepository.findAll();
+		return ofList;
+		
+	}
 		
 }

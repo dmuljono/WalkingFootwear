@@ -22,7 +22,6 @@ public class Product {
 
     @ManyToOne
     @JoinColumn(name = "category_id", nullable = false)
-    //@JsonManagedReference
     private ProductCategory category;
 
     @Column(name = "sku")
@@ -149,6 +148,8 @@ public class Product {
 		this.unitPrice=bd;
 		
 	}
+	
+	
 
 	
     

@@ -176,21 +176,21 @@ public class ManagerController {
 		
 	//View ByCategory ID
 		
-		// Product Registration
-		@GetMapping("/category/{id}")
-		public List<Product> addProductByCategoryId(@PathVariable long categoryId) {
-			String msg="";
-			List<Product> productList = null;
-			try {
-			productList = pr.findByCategoryId(categoryId);
-				msg = "Product Added Successfully";
-			} catch (Exception ex) {
-				msg = "Unable to add Product: " + ex.getMessage();
-				
-			}
-			
-			return productList;
-		}
+//		// Product Registration
+//		@GetMapping("/category/{id}")
+//		public List<Product> findProductByCategoryId(@PathVariable long categoryId) {
+//			String msg="";
+//			List<Product> productList = null;
+//			try {
+//			productList = pr.findByCategoryId(categoryId);
+//				msg = "Product Added Successfully";
+//			} catch (Exception ex) {
+//				msg = "Unable to add Product: " + ex.getMessage();
+//				
+//			}
+//			
+//			return productList;
+//		}
 	
 	//Add ProductCategory
 	@GetMapping("/addProductCategory/{name}")

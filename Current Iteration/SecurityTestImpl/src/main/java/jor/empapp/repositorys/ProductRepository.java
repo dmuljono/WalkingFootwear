@@ -9,5 +9,5 @@ import jor.empapp.models.Product;
 
 @CrossOrigin("http://localhost:4200")
 public interface ProductRepository extends JpaRepository<Product, Long> {
-	public List<Product> findByCategoryId(Long id);
+//	public List<Product> findByCategoryId(Long id);
 }

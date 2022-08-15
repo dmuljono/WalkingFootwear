@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from '../_services/user.service';
+import { StorageService } from '../_services/storage.service';
 
 @Component({
   selector: 'app-home',
@@ -8,10 +9,12 @@ import { UserService } from '../_services/user.service';
 })
 export class HomeComponent implements OnInit {
   content?: string;
+  isLoggedIn = false;
 
-  constructor(private userService: UserService) { }
+  constructor(private userService: UserService, private storageService: StorageService) { }
 
   ngOnInit(): void {
+    this.isLoggedIn = this.storageService.isLoggedIn();
     this.userService.getPublicContent().subscribe({
       next: data => {
         this.content = data;

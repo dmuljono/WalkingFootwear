@@ -17,6 +17,7 @@ import { BoardManagerComponent } from './board-manager/board-manager.component';
 import { httpInterceptorProviders } from './_helpers/http.interceptor';
 import { ProductListComponent } from './components/product-list/product-list.component';
 import { AddProductComponent } from './comp/add-product/add-product.component';
+import { SearchComponent } from './components/search/search.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { AddProductComponent } from './comp/add-product/add-product.component';
     BoardEmployeeComponent,
     BoardManagerComponent,
     ProductListComponent,
-    AddProductComponent
+    AddProductComponent,
+    SearchComponent
   ],
   imports: [
     BrowserModule,

@@ -9,6 +9,7 @@ import { ProfileComponent } from './profile/profile.component';
 import { BoardCustomerComponent } from './board-customer/board-customer.component';
 import { BoardEmployeeComponent } from './board-employee/board-employee.component';
 import { BoardManagerComponent } from './board-manager/board-manager.component';
+import { ProductListComponent } from './components/product-list/product-list.component';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -18,6 +19,7 @@ const routes: Routes = [
   { path: 'customer', component: BoardCustomerComponent },
   { path: 'employee', component: BoardEmployeeComponent },
   { path: 'manager', component: BoardManagerComponent },
+  { path: 'search/:keyword', component: ProductListComponent},
   { path: '', redirectTo: 'home', pathMatch: 'full' }
 ];
 

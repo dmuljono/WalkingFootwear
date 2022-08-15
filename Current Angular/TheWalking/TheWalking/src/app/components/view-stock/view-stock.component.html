@@ -1,0 +1,28 @@
+<div class="main-content">
+    
+    <table>
+        <tr>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Unit Price</th>
+            <th>Image URL</th>
+            <th>Available</th>
+            <th>Units in Stock</th>
+            <th>Date Created</th>
+            <th>Last Updated</th>
+        </tr>
+
+        <tr *ngFor="let tempProduct of products">
+            <td>{{ tempProduct.name }}</td>
+            <td>{{ tempProduct.description }}</td>
+            <td>{{ tempProduct.unitPrice }}</td>
+            <td>{{ tempProduct.imageUrl }}</td>
+            <td>{{ tempProduct.available }}</td>
+            <td>{{ tempProduct.unitsInStock }}</td>
+            <td>{{ tempProduct.dateCreated }}</td>
+            <td>{{ tempProduct.lastUpdated }}</td>
+        </tr>
+
+    </table>
+    
+</div>

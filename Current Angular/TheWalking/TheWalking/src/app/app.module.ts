@@ -18,6 +18,11 @@ import { httpInterceptorProviders } from './_helpers/http.interceptor';
 import { ProductListComponent } from './components/product-list/product-list.component';
 import { AddProductComponent } from './comp/add-product/add-product.component';
 import { SearchComponent } from './components/search/search.component';
+import { RegisterProductComponent } from './components/register-product/register-product.component';
+import { CreateCustomerComponent } from './components/create-customer/create-customer.component';
+import { ViewEmployeesComponent } from './components/view-employees/view-employees.component';
+import { ViewStockComponent } from './components/view-stock/view-stock.component';
+import { AddStockComponent } from './components/add-stock/add-stock.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +36,12 @@ import { SearchComponent } from './components/search/search.component';
     BoardManagerComponent,
     ProductListComponent,
     AddProductComponent,
-    SearchComponent
+    SearchComponent,
+    RegisterProductComponent,
+    CreateCustomerComponent,
+    ViewEmployeesComponent,
+    ViewStockComponent,
+    AddStockComponent
   ],
   imports: [
     BrowserModule,

@@ -7,13 +7,15 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jor.empapp.repositorys.ProductRepository;
 
 import javax.persistence.*;
+
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
 @Entity
 @Table(name="product")
 
-public class Product {
+public class Product implements Serializable{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -147,6 +149,14 @@ public class Product {
 		BigDecimal bd = BigDecimal.valueOf(d);
 		this.unitPrice=bd;
 		
+	}
+
+	@Override
+	public String toString() {
+		return "Product [productId=" + productId + ", category=" + category + ", sku=" + sku + ", name=" + name
+				+ ", description=" + description + ", unitPrice=" + unitPrice + ", imageUrl=" + imageUrl
+				+ ", available=" + available + ", unitsInStock=" + unitsInStock + ", dateCreated=" + dateCreated
+				+ ", lastUpdated=" + lastUpdated + "]";
 	}
 	
 	

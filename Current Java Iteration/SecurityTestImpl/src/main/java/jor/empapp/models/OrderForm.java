@@ -32,7 +32,6 @@ public class OrderForm {
 	
 	@ManyToOne
 	@JoinColumn(name="customer", referencedColumnName="customer_id", nullable=true)
-	@JsonManagedReference
 	private Customer customer;
 	
 	@Column(name = "date_created")

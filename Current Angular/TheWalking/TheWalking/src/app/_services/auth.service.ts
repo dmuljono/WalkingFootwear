@@ -38,6 +38,7 @@ export class AuthService {
     );
   }
 
+
   logout(): Observable<any> {
    // console.log(1);
     return this.http.post(AUTH_API + 'signout', { }, httpOptions);

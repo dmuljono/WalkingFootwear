@@ -19,7 +19,7 @@ export class AppComponent {
 
   ngOnInit(): void {
     this.isLoggedIn = this.storageService.isLoggedIn();
-  console.log(1+":"+this.isLoggedIn);
+  // console.log(1+":"+this.isLoggedIn);
     if (this.isLoggedIn) {
       const user = this.storageService.getUser();
       this.roles = user.roles;
@@ -33,14 +33,14 @@ export class AppComponent {
   }
 
   logout(): void {
-    console.log(2);
+    // console.log(2);
     this.authService.logout().subscribe({
       next: res => {
       
         this.storageService.clean();
         },
       error: err => {
-        console.log(err);
+        // console.log(err);
       }
     });
     

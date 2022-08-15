@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,6 +19,7 @@ import jor.empapp.models.Employee;
 import jor.empapp.models.Product;
 import jor.empapp.models.ProductCategory;
 import jor.empapp.payload.request.ProductRequest;
+import jor.empapp.payload.response.MessageResponse;
 import jor.empapp.repositorys.CustomerRepository;
 import jor.empapp.repositorys.EmployeeRepository;
 import jor.empapp.repositorys.ProductCategoryRepository;
@@ -43,7 +45,7 @@ public class ManagerController {
 	
 	// Product Registration
 	@PostMapping("/products")
-	public String addProductByCategoryId(@RequestBody ProductRequest preq) {
+	public ResponseEntity<?> addProductByCategoryId(@RequestBody ProductRequest preq) {
 		Product p = new Product();
 		p.setDescription(preq.getDescription());
 		p.setSku(preq.getSku());
@@ -53,15 +55,13 @@ public class ManagerController {
 		p.setAvailable(preq.isAvailable());
 		p.setName(preq.getName());
 		p.setCategory(pcr.findById(preq.getCategoryId()).get());
-		String msg = "";
 		try {
 			pr.save(p);
-			msg = "Product Added Successfully";
 		} catch (Exception ex) {
-			msg = "Unable to add Product: " + ex.getMessage();
+			return  (ResponseEntity<?>) ResponseEntity.badRequest();
 			
 		}
-		return msg;
+		return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
 	}
 	
 	// Product Registration
@@ -80,31 +80,27 @@ public class ManagerController {
 	
 	// Employee Registration
 	@PostMapping("/employees")
-	public String addEmployee(@RequestBody Employee e) {
-		String msg = "";
+	public ResponseEntity<?> addEmployee(@RequestBody Employee e) {
 		try {
 			er.save(e);
-			msg = "Employee Added Successfully";
 			
 			
 		} catch(Exception ex) {
-			msg = "Unable to add Employee: " + ex.getMessage();
+			return (ResponseEntity<?>) ResponseEntity.badRequest();
 			
 		}
-		return msg;
+		return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
 	}
 	
 	// Create Customer Profile
 	@PostMapping("/customers")
-	public String addCustomer(@RequestBody Customer c) {
-		String msg = "";
+	public ResponseEntity<?> addCustomer(@RequestBody Customer c) {
 		try {
 			cr.save(c);
-			msg = "Customer Added Successfully";
 		} catch (Exception ex) {
-			msg = "Unable to add Customer: " + ex.getMessage();
+			return (ResponseEntity<?>) ResponseEntity.badRequest();
 		}
-		return msg;
+		return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
 	}
 	
 	// Find Products
@@ -161,7 +157,7 @@ public class ManagerController {
 		return msg;
 	}
 	
-	//View All Employees
+	//View All Products
 		@GetMapping("/allProducts")
 		public List<Product> findAllProducts() {
 			List<Product> ps = pr.findAll();
@@ -175,22 +171,27 @@ public class ManagerController {
 	//View Feedback
 		
 	//View ByCategory ID
+
+		@GetMapping("allEmployee")
+		public List<Employee> findAllEmployee(@PathVariable long categoryId) {
+			List<Employee> empList = er.findAll();
+			return empList;
+		}
 		
-//		// Product Registration
-//		@GetMapping("/category/{id}")
-//		public List<Product> findProductByCategoryId(@PathVariable long categoryId) {
-//			String msg="";
-//			List<Product> productList = null;
-//			try {
-//			productList = pr.findByCategoryId(categoryId);
-//				msg = "Product Added Successfully";
-//			} catch (Exception ex) {
-//				msg = "Unable to add Product: " + ex.getMessage();
-//				
-//			}
-//			
-//			return productList;
-//		}
+		//All Employees
+		@GetMapping("/category/{categoryId}")
+		public List<Product> findProductByCategoryId(@PathVariable long categoryId) {
+			List<Product> productList = null;
+			try {
+			productList = pr.findByCategoryCategoryId(categoryId);
+			System.out.println(productList.get(0).toString());
+			} catch (Exception ex) {
+				return null;
+				
+			}
+			
+			return productList;
+		}
 	
 	//Add ProductCategory
 	@GetMapping("/addProductCategory/{name}")

@@ -10,6 +10,9 @@ import { BoardCustomerComponent } from './board-customer/board-customer.componen
 import { BoardEmployeeComponent } from './board-employee/board-employee.component';
 import { BoardManagerComponent } from './board-manager/board-manager.component';
 import { ProductListComponent } from './components/product-list/product-list.component';
+import { RegisterProductComponent } from './components/register-product/register-product.component';
+import { CreateCustomerComponent } from './components/create-customer/create-customer.component';
+import { ViewStockComponent } from './components/view-stock/view-stock.component';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -20,6 +23,9 @@ const routes: Routes = [
   { path: 'employee', component: BoardEmployeeComponent },
   { path: 'manager', component: BoardManagerComponent },
   { path: 'search/:keyword', component: ProductListComponent},
+  { path: 'registerProduct', component: RegisterProductComponent },
+  { path: 'createCustomer', component: CreateCustomerComponent },
+  { path: 'category/:id', component: ViewStockComponent },
   { path: '', redirectTo: 'home', pathMatch: 'full' }
 ];
 

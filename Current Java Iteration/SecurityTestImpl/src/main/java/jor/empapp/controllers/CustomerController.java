@@ -1,8 +1,11 @@
 package jor.empapp.controllers;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import jor.empapp.models.CancelOrder;
@@ -99,9 +103,23 @@ public class CustomerController {
 		orderFormRepository.deleteById(order.getOrderId());
 	}
 	
+//	@GetMapping("/search/findByNameContaining?name={name}")
+//	public Page<Product> findByName(@RequestParam String name) {
+//		Page<Product> p;
+//		p = productRepository.findByNameContaining(name, );
+//		return p;
+//	}
+//	
 	
+	@GetMapping("/search")
+	public List<Product> findByName(@RequestParam(name = "name") String name){
+		List<Product> p;
+		p = productRepository.findByNameContaining(name);
+		return p;
+	}
 	//Product Search
 	
 	//Feedback
 	
 }
+

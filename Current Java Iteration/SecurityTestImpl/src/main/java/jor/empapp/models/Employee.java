@@ -95,6 +95,14 @@ public class Employee{
 	public void setRoles(Set<EmployeeRole> roles) {
 		this.roles = roles;
 	}
+	@Override
+	public String toString() {
+		return "Employee [employeeID=" + employeeID + ", firstName=" + firstName + ", lastName=" + lastName + ", email="
+				+ email + ", phoneNumber=" + phoneNumber + ", address=" + address + ", password=" + password
+				+ ", roles=" + roles + "]";
+	}
+	
+	
 
 	
 }

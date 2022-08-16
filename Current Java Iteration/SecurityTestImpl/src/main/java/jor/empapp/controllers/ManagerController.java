@@ -1,5 +1,6 @@
 package jor.empapp.controllers;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,14 +17,21 @@ import org.springframework.web.bind.annotation.RestController;
 
 import jor.empapp.models.Customer;
 import jor.empapp.models.Employee;
+import jor.empapp.models.OrderForm;
 import jor.empapp.models.Product;
 import jor.empapp.models.ProductCategory;
+import jor.empapp.models.WalkinOrderForm;
+import jor.empapp.payload.request.OrderRequest;
 import jor.empapp.payload.request.ProductRequest;
+import jor.empapp.payload.request.StockUpdateRequest;
+import jor.empapp.payload.request.WalkInOrderRequest;
 import jor.empapp.payload.response.MessageResponse;
 import jor.empapp.repositorys.CustomerRepository;
 import jor.empapp.repositorys.EmployeeRepository;
+import jor.empapp.repositorys.OrderFormRepository;
 import jor.empapp.repositorys.ProductCategoryRepository;
 import jor.empapp.repositorys.ProductRepository;
+import jor.empapp.repositorys.WalkinOrderFormRepository;
 
 @CrossOrigin(origins = "http://localhost:4200", maxAge = 3600, allowCredentials="true")
 @RestController
@@ -41,6 +49,13 @@ public class ManagerController {
 	
 	@Autowired
 	private ProductCategoryRepository pcr;
+	
+	@Autowired
+	private OrderFormRepository orderFormRepository;
+	
+	@Autowired
+	private WalkinOrderFormRepository wofRepository;
+	
 	
 	
 	// Product Registration
@@ -143,18 +158,16 @@ public class ManagerController {
 	}
 	
 	//New Order Request
-	@GetMapping("/addStock/{id}/{amount}")
-	public String addStock(@PathVariable long id, @PathVariable int amount) {
-		String msg = "";
+	@PostMapping("/addStock")
+	public ResponseEntity<?> addStock(@RequestBody StockUpdateRequest sup) {
 		try {
-			Product product = pr.findById(id).get();
-			product.setUnitsInStock(amount);
-			msg = "Stocks updated";
+			Product product = pr.findById(sup.getProductId()).get();
+			product.setUnitsInStock(sup.getQuantity()+product.getUnitsInStock());
 		} catch (Exception e) {
-			msg = "Could not find ID";
-			e.printStackTrace();
+			return ResponseEntity.badRequest().body("Not Okay");
 		}
-		return msg;
+		pr.updateStockQuantity( sup.getQuantity(), sup.getProductId());
+		return ResponseEntity.ok(new MessageResponse("Stock Updated!"));
 	}
 	
 	//View All Products
@@ -172,9 +185,10 @@ public class ManagerController {
 		
 	//View ByCategory ID
 
-		@GetMapping("allEmployee")
-		public List<Employee> findAllEmployee(@PathVariable long categoryId) {
+		@GetMapping("/allEmployees")
+		public List<Employee> findAllEmployee() {
 			List<Employee> empList = er.findAll();
+			System.out.println(empList.get(0).toString());
 			return empList;
 		}
 		
@@ -184,7 +198,7 @@ public class ManagerController {
 			List<Product> productList = null;
 			try {
 			productList = pr.findByCategoryCategoryId(categoryId);
-			System.out.println(productList.get(0).toString());
+			
 			} catch (Exception ex) {
 				return null;
 				
@@ -208,5 +222,31 @@ public class ManagerController {
 			e.printStackTrace();
 		}
 		return msg;
+	}
+	
+	@PostMapping("/placeOrderWalkIn")
+	public ResponseEntity<?> placeWalkInOrder(@RequestBody WalkInOrderRequest orderRequest) {
+		try {
+			Long[] ids = orderRequest.getProductIds();
+			Long[] quantities = orderRequest.getQuantity();
+			System.out.println(ids.length+"ids");
+			System.out.println(quantities.length+"qs");
+			if(ids.length != quantities.length) {
+				return ResponseEntity.badRequest().body("Not Okay");
+			}
+			for(int i = 0; i<ids.length;i++) {
+				WalkinOrderForm orderForm = new WalkinOrderForm();
+				orderForm.setProduct(pr.findById(ids[i]).get());
+				orderForm.setQuantity(quantities[i].intValue());
+				orderForm.setEmail(orderRequest.getEmail());
+				orderForm.setPhoneNumber(orderRequest.getPhoneNumber());
+				orderForm.findTotalAmount();
+				wofRepository.save(orderForm);
+			}
+			return ResponseEntity.ok(new MessageResponse("Stock Updated!"));
+		} catch (Exception e) {
+			System.out.println("Exception");
+			return ResponseEntity.badRequest().body("Not Okay");
+		}
 	}
 }

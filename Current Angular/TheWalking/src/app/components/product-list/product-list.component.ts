@@ -4,6 +4,7 @@ import {ProductService} from 'src/app/services/product.service'
 import {ActivatedRoute} from '@angular/router'
 import {CartItem} from 'src/app/model/cart-item'
 import { CartService } from 'src/app/model/cart-service';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-product-list',
@@ -11,11 +12,14 @@ import { CartService } from 'src/app/model/cart-service';
   styleUrls: ['./product-list.component.css']
 })
 export class ProductListComponent implements OnInit {
-  products:Product[];
-  cartService: CartService;
+  products:Product[] =[];
+  totalPrice : number = 0.00;
+  totalQuantity : number = 0;
+  
+  
 
 
-  constructor(private pserv:ProductService, private route:ActivatedRoute) { }
+  constructor(private pserv:ProductService, private route:ActivatedRoute,private cartService: CartService) { }
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(()=>{
@@ -24,7 +28,9 @@ export class ProductListComponent implements OnInit {
         categoryId = 1;
       }
       this.listProduct(categoryId);
+      this.updateCartStatus();
     });
+
   }
 
   listProduct(id:number){
@@ -35,7 +41,8 @@ export class ProductListComponent implements OnInit {
 
   addToCart(theProduct : Product){
 
-    console.log('Adding to Cart: ${theProduct.name}, ${theProduct.unitPrice}');
+    console.log(`Adding to Cart: ${theProduct.name}, ${theProduct.unitPrice}`);
+    
     const theCartItem = new CartItem(theProduct);
 
     this.cartService.addToCart(theCartItem);
@@ -43,5 +50,16 @@ export class ProductListComponent implements OnInit {
 
 
   }
+  updateCartStatus() {
+    this.cartService.totalPrice.subscribe(
+      data => this.totalPrice = data
+    );
+
+    this.cartService.totalQuantity.subscribe(
+      data => this.totalQuantity = data
+    );
+}
+
+
 
 }

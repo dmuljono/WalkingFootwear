@@ -6,7 +6,7 @@
                 <div *ngFor="let tempProduct of products" class = "col-md-3">
 
                     <div class = "product-box">
-                        <!--<img src = "" class = "img-responsive"/>-->
+                        <img src="{{ tempProduct.imageUrl }}" height="50" />
                         <h1>{{tempProduct.name}}</h1>
                         <div class = "price">{{tempProduct.unitPrice | currency:'USD'}}</div>
                         <!--<a href="#" class = "primary-btn">Add To Cart</a> -->
@@ -16,9 +16,25 @@
 
                 </div>
 
+            
 
 
 
+
+            </div>
+            <div class ="cart-area d-n">
+
+                <a routerLink="/cart-details">
+        
+                    <div class ="total"> {{totalPrice | currency : 'USD'}}
+                        <span>{{totalQuantity}} </span>
+        
+                    </div>
+        
+                    <i class = "fa fa-shopping-cart" aria-hidden="true"> </i>
+        
+                </a>
+        
             </div>
         </div>
     </div>

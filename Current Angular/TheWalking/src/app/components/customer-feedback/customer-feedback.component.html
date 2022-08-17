@@ -1,0 +1,59 @@
+<div class="col-md-12">
+    <div class="card card-container">
+      <form
+        *ngIf="!isSuccessful"
+        name="form"
+        (ngSubmit)="f.form.valid && onSubmit()"
+        #f="ngForm"
+        novalidate
+      >
+        <div class="form-group">
+          <label for="selectOrder">Order</label>
+          <select class="form-control" name="selectOrder" [(ngModel)]="form.selectOrder">
+            <option *ngFor="let tempOrder of orders" [value]="tempOrder">
+                {{tempOrder}}
+            </option>
+          </select>
+        </div>
+
+        <div class="form-group">
+            <label for="rating">Rating (1 (lowest) to 5 (highest))</label>
+            <input
+              type="number"
+              class="form-control"
+              name="rating"
+              [(ngModel)]="form.rating"
+              required
+                [min]="1"
+                [max]="5"
+                #rating="ngModel"
+                [ngClass]="{ 'is-invalid': f.submitted && rating.errors }"
+            />
+          </div>
+
+        <div class="form-group">
+          <label for="comment">Feedback or Comment</label>
+          <input
+            type="text"
+            class="form-control"
+            name="comment"
+            [(ngModel)]="form.comment"/>
+        </div>
+
+        
+
+
+        <div class="form-group">
+          <button class="btn btn-primary btn-block">Register Customer</button>
+        </div>
+  
+        <div class="alert alert-warning" *ngIf="f.submitted && isSubmittedFailed">
+          Customer Registration Failed!<br />{{ errorMessage }}
+        </div>
+      </form>
+  
+      <div class="alert alert-success" *ngIf="isSuccessful">
+        Your Customer Registration was successful!
+      </div>
+    </div>
+  </div>

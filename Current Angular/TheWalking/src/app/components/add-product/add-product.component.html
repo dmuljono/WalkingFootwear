@@ -1,0 +1,38 @@
+<div class = "main-content">
+    <div class = "section-content section-content-p30">
+        <div class = "container-fluid">
+            <form [formGroup] = "pform" (ngSubmit) = "onSubmit()">
+                <label for = "sku">SKU: </label>
+                <input type = "text" id = "sku" formControlName = "sku" required/><br/>
+
+                <label for = "name"> Name: </label>
+                <input type = "text" id = "name" formControlName = "name"/><br/>
+
+                <label for = "description"> Description: </label>
+                <input type = "text" id = "description" formControlName = "description"/><br/>
+
+                <label for = "unitPrice"> Unit Price: </label>
+                <input type = "unitPrice" id = "unitPrice" formControlName = "unitPrice"/><br/>
+
+                <label for = "description"> Description: </label>
+                <input type = "text" id = "description" formControlName = "description"/><br/>
+
+                <label for = "imageUrl"> Image URL: </label>
+                <input type = "text" id = "imageUrl" formControlName = "imageUrl"/><br/>
+
+                <label for = "available"> Active: </label>
+                <input type = "checkbox" id = "available" formControlName = "available"/><br/>
+
+                <label for = "unitsInStock"> Units in Stock: </label>
+                <input type = "text" id = "unitsInStock" formControlName = "unitsInStock"/><br/>
+
+                <div formGroupName = "category"> <b>Category:</b><br/>
+                    <label for="categoryId"> Category ID: </label>
+                    <input type = "text" id = "categoryId" formControlName = "categoryId"/><br/>
+                </div>
+                <button type = "submit" [disabled]="!pform.valid">Submit</button>
+            </form>
+        </div>
+    </div>
+</div>
+

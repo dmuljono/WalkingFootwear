@@ -1,0 +1,136 @@
+<form [formGroup] = "checkoutFormGroup" (ngSubmit) ="onSubmit()"> 
+<div formGroupName = "customer" class ="form-area">
+    <h3>Customer</h3>
+
+    <div class="row">
+        <div class ="col-md-2"> <label> First Name </label></div>
+        <input formControlName="firstName" type="text">
+    </div>
+
+    <div class="row">
+        <div class ="col-md-2"> <label> Last Name </label></div>
+        <input formControlName="lastName" type="text">
+    </div>
+
+    <div class="row">
+        <div class ="col-md-2"> <label> Email </label></div>
+        <input formControlName="Email" type="text">
+    </div>
+
+
+
+</div>
+
+<div formGroupName = "shipping" class ="form-area">
+    <h3>Shipping & Billing Address</h3>
+
+    <div class="row">
+        <div class ="col-md-2"> <label> Street </label></div>
+        <input formControlName="street" type="text">
+    </div>
+
+    <div class="row">
+        <div class ="col-md-2"> <label> City </label></div>
+        <input formControlName="city" type="text">
+    </div>
+
+    <div class="row">
+        <div class ="col-md-2"> <label> State </label></div>
+        <input formControlName="state" type="text">
+    </div>
+
+    <div class="row">
+        <div class ="col-md-2"> <label> Zip Code </label></div>
+        <input formControlName="zipcode" type="text">
+    </div>
+
+</div>
+<!--
+<div formGroupName = "billing" class ="form-area">
+    <h3>Billing Address</h3>
+
+    <div class="row">
+        <div class ="col-md-2"> <label> Street </label></div>
+        <input formControlName="street" type="text">
+    </div>
+
+    <div class="row">
+        <div class ="col-md-2"> <label> City </label></div>
+        <input formControlName="city" type="text">
+    </div>
+
+    <div class="row">
+        <div class ="col-md-2"> <label> State </label></div>
+        <input formControlName="state" type="text">
+    </div>
+
+    <div class="row">
+        <div class ="col-md-2"> <label> Zip Code </label></div>
+        <input formControlName="zipcode" type="text">
+    </div>
+
+</div>
+-->
+<div formGroupName = "paymethod" class ="form-area">
+    <h3>Credit Card</h3>
+
+    <div class="row">
+        <div class ="col-md-2"> <label> Card Type </label></div>
+        <input formControlName="cardType" type="text">
+    </div>
+
+    <div class="row">
+        <div class ="col-md-2"> <label> Name on Card</label></div>
+        <input formControlName="cardName" type="text">
+    </div>
+
+    <div class="row">
+        <div class ="col-md-2"> <label> Card Number </label></div>
+        <input formControlName="cardNumber" type="text">
+    </div>
+
+    <div class="row">
+        <div class ="col-md-2"> <label> Security Code </label></div>
+        <input formControlName="securityCode" type="text">
+    </div>
+
+    <div class="row">
+        <div class ="col-md-2"> <label> Exp Month </label></div>
+        <div class="input-space">
+            <select formControlName="expirationMonth">
+                <option *ngFor="let month of creditCardMonths">
+                    {{month}}
+                </option>
+            </select>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class ="col-md-2"> <label> Exp Year </label></div>
+        <div class="input-space">
+            <select formControlName="expirationYear" (change)="handleMonthsAndYears">
+                <option *ngFor="let year of creditCardYears">
+                    {{year}}
+                </option>
+            </select>
+        </div>
+    </div>
+
+    <div class="text-center">
+        <button type="submit" class="btn btn-info"> Purchase </button>
+    </div>
+
+</div>
+<div class="form-area">
+    <h3>Review Your Order</h3>
+
+    <p>Total Quantity: {{ totalQuantity }}</p>
+    <p>Shipping: FREE</p>
+    <p>Total Price: {{ totalPrice | currency: 'USD' }}</p>
+</div>
+<div class="text-center">
+    <button type="submit" class="btn btn-info"> Purchase </button>
+</div>
+
+
+</form>

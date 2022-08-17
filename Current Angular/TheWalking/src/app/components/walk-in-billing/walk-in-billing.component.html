@@ -1,0 +1,32 @@
+<div class="main-content">
+    <h6>Items on cart: {{cartNumber}}</h6>
+    <h6>Total: {{totalPrice}}</h6>
+    <button type="submit" routerLink="checkout" >Pay Now</button>
+    <tr *ngFor="let tempProduct of products">
+
+    </tr>
+    <br><br><br>
+    <table>
+        <tr>
+            <th>Product ID</th>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Unit Price</th>
+            <th>Available</th>
+            <th>Units in Stock</th>
+            <th>Button</th>
+        </tr>
+
+        <tr *ngFor="let tempProduct of products">
+            <td>{{ tempProduct.productId }}</td>
+            <td>{{ tempProduct.name }}</td>
+            <td>{{ tempProduct.description }}</td>
+            <td>{{ tempProduct.unitPrice }}</td>
+            <td>{{ tempProduct.available }}</td>
+            <td>{{ tempProduct.unitsInStock }}</td>
+            <button type="button" (click)="addToCart(tempProduct)">Add to cart</button>
+        </tr>
+
+    </table>
+    
+</div>

@@ -101,7 +101,16 @@ public class CancelOrder {
 		this.customer = customer;
 	}
 	
+	
 
+
+	public String getReasonForCancel() {
+		return reasonForCancel;
+	}
+
+	public void setReasonForCancel(String reasonForCancel) {
+		this.reasonForCancel = reasonForCancel;
+	}
 
 	@Override
 	public String toString() {

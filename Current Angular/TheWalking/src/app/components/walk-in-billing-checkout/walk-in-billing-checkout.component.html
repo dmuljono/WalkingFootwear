@@ -1,0 +1,47 @@
+<div class="checkout">
+    <br><br>
+    <h5>Customer's total price is: {{totalPrice}}</h5>
+    <h5>Customer has bought {{totalQuantity}} items</h5>
+</div>
+
+<div class="col-md-12">
+    <div class="card card-container">
+      <form
+        *ngIf="!isSuccessful"
+        name="form"
+        (ngSubmit)="f.form.valid && onSubmit()"
+        #f="ngForm"
+        novalidate
+      >
+        <div class="form-group">
+          <label for="phoneNumber">Phone Number</label>
+          <input
+            type="text"
+            class="form-control"
+            name="phoneNumber"
+            [(ngModel)]="form.phoneNumber"/>
+        </div>
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input
+            type="text"
+            class="form-control"
+            name="email"
+            [(ngModel)]="form.email"/>
+        </div>
+
+        <div class="form-group">
+          <button class="btn btn-primary btn-block">Checkout</button>
+        </div>
+  
+        <div class="alert alert-warning" *ngIf="f.submitted && isRegisterFailed">
+          Customer Order Failed!<br />{{ errorMessage }}
+        </div>
+      </form>
+  
+      <div class="alert alert-success" *ngIf="isSuccessful">
+        Your Customer Order was successful!
+      </div>
+    </div>
+  </div>
+    

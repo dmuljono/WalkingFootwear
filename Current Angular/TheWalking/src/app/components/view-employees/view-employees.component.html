@@ -1,0 +1,22 @@
+<div class="main-content">
+    
+    <table>
+        <tr>
+            <th>Employee ID</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Email</th>
+            <th>Address</th>
+        </tr>
+
+        <tr *ngFor="let tempProduct of employees">
+            <td>{{ tempProduct.employeeID }}</td>
+            <td>{{ tempProduct.firstName }}</td>
+            <td>{{ tempProduct.lastName }}</td>
+            <td>{{ tempProduct.email }}</td>
+            <td>{{ tempProduct.address }}</td>
+        </tr>
+
+    </table>
+    
+</div>

@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,14 +20,17 @@ import org.springframework.web.bind.annotation.RestController;
 import jor.empapp.models.CancelOrder;
 import jor.empapp.models.Customer;
 import jor.empapp.models.Employee;
+import jor.empapp.models.Feedback;
 import jor.empapp.models.OrderForm;
 import jor.empapp.models.Product;
 import jor.empapp.models.ReturnOrder;
+import jor.empapp.payload.request.FeedbackRequest;
 import jor.empapp.payload.request.OrderRequest;
 import jor.empapp.payload.request.ReturnRequest;
 import jor.empapp.repositorys.CancelOrderRepository;
 import jor.empapp.repositorys.CustomerRepository;
 import jor.empapp.repositorys.EmployeeRepository;
+import jor.empapp.repositorys.FeedbackRepository;
 import jor.empapp.repositorys.OrderFormRepository;
 import jor.empapp.repositorys.ProductRepository;
 import jor.empapp.repositorys.ReturnOrderRepository;
@@ -53,6 +57,20 @@ public class CustomerController {
 	
 	@Autowired
 	private CancelOrderRepository cancelOrderRepository;
+
+	@Autowired
+	private FeedbackRepository feedbackRepository;
+	
+	@GetMapping("/allOrdersOnCustomer/{customerId}")
+	public List<OrderForm> allOrdersOnCustomer(@PathVariable long customerId ){
+		try {
+			List<OrderForm> orderList = orderFormRepository.findByCustomerCustomerId(customerId);
+			return orderList;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
 	
 	@PostMapping("/placingOrderTest")
 	public String placingOrderTest(@RequestBody OrderRequest orderRequest) {
@@ -74,7 +92,7 @@ public class CustomerController {
 	}
 	
 	@PostMapping("/cancelOrderTest")
-	public void cancelOrderTest(@RequestBody ReturnRequest returnRequest) {
+	public ResponseEntity<?> cancelOrderTest(@RequestBody ReturnRequest returnRequest) {
 		OrderForm order = orderFormRepository.findById(returnRequest.getOrderId()).get();
 		CancelOrder returnOrder = new CancelOrder();
 		returnOrder.setOrderId(order.getOrderId());
@@ -83,12 +101,15 @@ public class CustomerController {
 		returnOrder.setPurchaseDate(order.getPurchaseDate());
 		returnOrder.setQuantity(order.getQuantity());
 		returnOrder.setTotalAmount(order.getTotalAmount());
+		returnOrder.setReasonForCancel(returnRequest.getReasonForReturn());
 		cancelOrderRepository.save(returnOrder);
 		orderFormRepository.deleteById(order.getOrderId());
+		orderFormRepository.deleteById(order.getOrderId());
+		return ResponseEntity.ok("Done");
 	}
 	
-	@PostMapping("/returnOrderTest")
-	public void returnOrderTest(@RequestBody ReturnRequest returnRequest) {
+	@PostMapping("/returnOrder")
+	public ResponseEntity<?> returnOrderTest(@RequestBody ReturnRequest returnRequest) {
 		OrderForm order = orderFormRepository.findById(returnRequest.getOrderId()).get();
 		ReturnOrder returnOrder = new ReturnOrder();
 		returnOrder.setOrderId(order.getOrderId());
@@ -101,6 +122,7 @@ public class CustomerController {
 		//returnOrder.setReturnApproved(true);
 		returnOrderRepository.save(returnOrder);
 		orderFormRepository.deleteById(order.getOrderId());
+		return ResponseEntity.ok("Done");
 	}
 	
 //	@GetMapping("/search/findByNameContaining?name={name}")
@@ -120,6 +142,17 @@ public class CustomerController {
 	//Product Search
 	
 	//Feedback
+	@PostMapping("/customerFeedback")
+	public ResponseEntity<?> customerFeedback(@RequestBody FeedbackRequest feedbackRequest){
+		Feedback feedback = new Feedback();
+		feedback.setProduct(productRepository.findById(feedbackRequest.getProductId()).get());
+		feedback.setCustomer(customerRepository.findById(feedbackRequest.getCustomerId()).get());
+		feedback.setComment(feedbackRequest.getComment());
+		feedback.setRating(feedback.getRating());
+		feedbackRepository.save(feedback);
+		return ResponseEntity.ok("Done");
+		
+	}
 	
 }
 

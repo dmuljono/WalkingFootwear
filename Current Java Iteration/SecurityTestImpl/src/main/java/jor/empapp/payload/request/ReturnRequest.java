@@ -5,6 +5,9 @@ import javax.validation.constraints.NotBlank;
 public class ReturnRequest {
 	@NotBlank
 	private Long orderId;
+	
+	@NotBlank
+	private Long customerId;
 
 	@NotBlank
 	private String reasonForReturn;
@@ -26,6 +29,15 @@ public class ReturnRequest {
 		this.reasonForReturn = reasonForReturn;
 	}
 
+	public Long getCustomerId() {
+		return customerId;
+	}
+
+	public void setCustomerId(Long customerId) {
+		this.customerId = customerId;
+	}
+	
+	
 	
 
 	

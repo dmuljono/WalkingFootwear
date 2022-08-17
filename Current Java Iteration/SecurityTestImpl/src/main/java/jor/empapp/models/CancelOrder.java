@@ -23,6 +23,9 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 public class CancelOrder {
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "cancelId")
+	private Long cancelId;
+	
     @Column(name = "orderId")
 	private Long orderId;
 	
@@ -45,7 +48,7 @@ public class CancelOrder {
 	@Column(name = "totalAmount")
 	private double totalAmount;
 	
-	@Column(name = "reasonForReturn")
+	@Column(name = "reasonForCancel")
 	private String reasonForCancel;
 
 	
@@ -104,6 +107,14 @@ public class CancelOrder {
 	
 
 
+	public Long getCancelId() {
+		return cancelId;
+	}
+
+	public void setCancelId(Long cancelId) {
+		this.cancelId = cancelId;
+	}
+
 	public String getReasonForCancel() {
 		return reasonForCancel;
 	}
@@ -112,11 +123,6 @@ public class CancelOrder {
 		this.reasonForCancel = reasonForCancel;
 	}
 
-	@Override
-	public String toString() {
-		return "OrderForm [orderId=" + orderId + ", product=" + product + ", customer=" + customer + ", purchaseDate="
-				+ purchaseDate + ", quantity=" + quantity + ", totalAmount=" + totalAmount + "]";
-	}
 	
 	
 	

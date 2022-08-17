@@ -8,10 +8,10 @@
         novalidate
       >
         <div class="form-group">
-          <label for="selectOrder">Order</label>
-          <select class="form-control" name="selectOrder" [(ngModel)]="form.selectOrder">
-            <option *ngFor="let tempOrder of orders" [value]="tempOrder">
-                {{tempOrder}}
+          <label for="tempOrder">Order</label>
+          <select class="form-control" name="tempOrder" [(ngModel)]="form.tempOrder">
+            <option *ngFor="let tempOrder of orders" value={{tempOrder.orderId}}>
+                {{tempOrder.orderId}} {{tempOrder.product.name}} {{tempOrder.totalAmount| currency:'USD'}} | {{tempOrder.purchaseDate}}
             </option>
           </select>
         </div>
@@ -31,6 +31,15 @@
             />
           </div>
 
+          <div class="form-group">
+            <label for="deliveryOnTime">Delivery was on time:</label>
+            <input
+              type="checkbox"
+              class="form-control"
+              name="deliveryOnTime"
+              [(ngModel)]="form.deliveryOnTime"/>
+          </div>
+
         <div class="form-group">
           <label for="comment">Feedback or Comment</label>
           <input
@@ -42,18 +51,18 @@
 
         
 
-
+    
         <div class="form-group">
-          <button class="btn btn-primary btn-block">Register Customer</button>
+          <button class="btn btn-primary btn-block">Submit Feedback</button>
         </div>
-  
+      
         <div class="alert alert-warning" *ngIf="f.submitted && isSubmittedFailed">
-          Customer Registration Failed!<br />{{ errorMessage }}
+          Feedback Submission Failed!<br />{{ errorMessage }}
         </div>
       </form>
   
       <div class="alert alert-success" *ngIf="isSuccessful">
-        Your Customer Registration was successful!
+        Your Feedback Submission was successful!
       </div>
     </div>
   </div>

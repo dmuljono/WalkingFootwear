@@ -23,8 +23,12 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 public class ReturnOrder {
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "orderId")
+    @Column(name = "returnId")
+	private Long returnId;
+	
+	@Column(name = "orderId")
 	private Long orderId;
+	
 	
 	@ManyToOne
 	@JoinColumn(name="product", referencedColumnName="product_id", nullable=false)
@@ -120,11 +124,15 @@ public class ReturnOrder {
 		this.returnApproved = returnApproved;
 	}
 
-	@Override
-	public String toString() {
-		return "OrderForm [orderId=" + orderId + ", product=" + product + ", customer=" + customer + ", purchaseDate="
-				+ purchaseDate + ", quantity=" + quantity + ", totalAmount=" + totalAmount + "]";
+	public Long getReturnId() {
+		return returnId;
 	}
+
+	public void setReturnId(Long returnId) {
+		this.returnId = returnId;
+	}
+
+	
 	
 	
 	

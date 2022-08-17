@@ -1,1 +1,44 @@
-<p>cancel-order works!</p>
+<div class="col-md-12">
+    <div class="card card-container">
+      <form
+        *ngIf="!isSuccessful"
+        name="form"
+        (ngSubmit)="f.form.valid && onSubmit()"
+        #f="ngForm"
+        novalidate
+      >
+        <div class="form-group">
+          <label for="tempOrder">Order</label>
+          <select class="form-control" name="tempOrder" [(ngModel)]="form.tempOrder">
+            <option *ngFor="let tempOrder of orders" value={{tempOrder.orderId}}>
+                {{tempOrder.orderId}} {{tempOrder.product.name}} {{tempOrder.totalAmount| currency:'USD'}} | {{tempOrder.purchaseDate}}
+            </option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="reasonForReturn">Reason for Return</label>
+          <input
+            type="text"
+            class="form-control"
+            name="reasonForReturn"
+            [(ngModel)]="form.reasonForReturn"/>
+        </div>
+
+        
+
+    
+        <div class="form-group">
+          <button class="btn btn-primary btn-block">Cancel Product</button>
+        </div>
+      
+        <div class="alert alert-warning" *ngIf="f.submitted && isSubmittedFailed">
+          Cancellation Submission Failed!<br />{{ errorMessage }}
+        </div>
+      </form>
+  
+      <div class="alert alert-success" *ngIf="isSuccessful">
+        Your Cancellation Submission was successful!
+      </div>
+    </div>
+  </div>

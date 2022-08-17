@@ -11,44 +11,42 @@ import { StorageService } from 'src/app/services/storage.service';
 })
 export class CustomerFeedbackComponent implements OnInit {
   form: any = {
-    selectOrder: null,
+    tempOrder:null,
     rating:null,
     comment: null,
-    //ontime
+    deliveryOnTime: false,
   };
   isSuccessful = false;
   isSubmittedFailed = false;
   errorMessage = '';
   currentUser: any;
   orders: Order[];
-  currentUserId: number;
+  currentOrder: Order;
 
   constructor(private pserv: CustomerService, private storageService:StorageService, private route:ActivatedRoute) { }
 
   ngOnInit(): void {
     this.currentUser = this.storageService.getUser();
+    console.log(this.currentUser);
     this.route.paramMap.subscribe(()=>{
-      this.currentUser = this.storageService.getUser();
-      this.currentUserId = this.currentUser.userId;
       let customerId=+this.route.snapshot.paramMap.get("id");
-      if(customerId==0){
-        customerId=1;
-      }
-      this.listOrder(customerId);
+      this.listOrder(this.currentUser.id);
     }
     );
   }
 
   onSubmit(): void {
-    const { selectOrder, rating, comment } = this.form;
-
-    this.pserv.sendFeedback(selectOrder.orderId, rating, comment, this.currentUser.userId).subscribe({
+    const { tempOrder, rating, comment, deliveryOnTime } = this.form;
+    console.log(tempOrder, rating);
+    console.log(this.currentUser);
+    this.pserv.sendFeedback(tempOrder, rating, comment, this.currentUser.id, deliveryOnTime).subscribe({
       next: data => {
         console.log(data);
         this.isSuccessful = true;
         this.isSubmittedFailed = false;
       },
       error: err => {
+        console.log(err);
         this.errorMessage = err.error.message;
         this.isSubmittedFailed = true;
       }

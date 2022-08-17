@@ -22,6 +22,7 @@ import { CartDetailsComponent } from './components/cart-details/cart-details.com
 import { ReturnOrderComponent } from './components/return-order/return-order.component';
 import { CancelOrderComponent } from './components/cancel-order/cancel-order.component';
 import { CheckoutComponent } from './components/checkout/checkout.component';
+import { CustomerFeedbackComponent } from './components/customer-feedback/customer-feedback.component';
 
 // import { AddProductComponent } from './components/add-product/add-product.component';
 
@@ -48,6 +49,7 @@ const routes: Routes = [
   {path: 'cancelOrder', component:CancelOrderComponent},
   {path: 'cart-details', component: CartDetailsComponent},
   {path: 'checkout', component: CheckoutComponent},
+  {path: 'feedback', component: CustomerFeedbackComponent},
   {path: '', redirectTo: 'home', pathMatch: 'full' }
 
 

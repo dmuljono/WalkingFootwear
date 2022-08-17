@@ -19,15 +19,15 @@ export class CustomerService {
 
   constructor(private http: HttpClient) {}
 
-  submitReturnRequest(orderId: number, reasonForReturn: String): Observable<any> {
-    return this.http.post(
-      CUSTOMER_API + 'returnOrder',
-      {
-        orderId, reasonForReturn
-      },
-      httpOptions
-    );
-  }
+  // submitReturnRequest(orderId: number, reasonForReturn: String): Observable<any> {
+  //   return this.http.post(
+  //     CUSTOMER_API + 'returnOrder',
+  //     {
+  //       orderId, reasonForReturn
+  //     },
+  //     httpOptions
+  //   );
+  // }
 
   getAllOrdersOnCustomer(customerId: number):Observable<Order[]>{
     const url=`http://localhost:5000/api/test/customer/allOrdersOnCustomer/${customerId}`
@@ -35,21 +35,41 @@ export class CustomerService {
     return this.http.get<Order[]>(url) ;
   }
   
-  submitCancelRequest(orderId: number, reasonForReturn: String): Observable<any> {
+  // submitCancelRequest(orderId: number, reasonForReturn: String): Observable<any> {
+  //   return this.http.post(
+  //     CUSTOMER_API + 'cancelOrder',
+  //     {
+  //       orderId, reasonForReturn
+  //     },
+  //     httpOptions
+  //   );
+  // }
+
+  sendFeedback(orderId:number,rating:number,comment:string, customerId:number, deliveryOnTime: boolean){
     return this.http.post(
-      CUSTOMER_API + 'cancelOrder',
+      CUSTOMER_API + 'customerFeedback',
       {
-        orderId, reasonForReturn
+        orderId, rating, comment, customerId, deliveryOnTime
       },
       httpOptions
     );
   }
 
-  sendFeedback(orderId:number,rating:number,comment:string, userId:number){
+  sendReturnRequest(orderId:number, customerId:number, reasonForReturn:string){
     return this.http.post(
-      CUSTOMER_API + 'customerFeedback',
+      CUSTOMER_API + 'returnOrder',
       {
-        orderId, rating, comment, userId
+        orderId, customerId, reasonForReturn
+      },
+      httpOptions
+    );
+  }
+
+  sendCancelRequest(orderId:number, customerId:number, reasonForReturn:string){
+    return this.http.post(
+      CUSTOMER_API + 'cancelOrder',
+      {
+        orderId, customerId, reasonForReturn
       },
       httpOptions
     );

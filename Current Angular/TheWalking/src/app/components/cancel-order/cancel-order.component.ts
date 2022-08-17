@@ -11,29 +11,46 @@ import { StorageService } from 'src/app/services/storage.service';
   styleUrls: ['./cancel-order.component.css']
 })
 export class CancelOrderComponent implements OnInit {
-  orders: Order[];
-  currentUser: any;
-  currentUserId: number;
-  targetOrder: Order;
   form: any = {
-    description:null,
+    tempOrder:null,
+    reasonforReturn:null
   };
-  constructor(private pserv:CustomerService, private route:ActivatedRoute, private storageService: StorageService) { }
+  isSuccessful = false;
+  isSubmittedFailed = false;
+  errorMessage = '';
+  currentUser: any;
+  orders: Order[];
+  currentOrder: Order;
 
-  //keepcheck
+  constructor(private pserv: CustomerService, private storageService:StorageService, private route:ActivatedRoute) { }
+
   ngOnInit(): void {
+    this.currentUser = this.storageService.getUser();
+    console.log(this.currentUser);
     this.route.paramMap.subscribe(()=>{
-      this.currentUser = this.storageService.getUser();
-      this.currentUserId = this.currentUser.userId;
       let customerId=+this.route.snapshot.paramMap.get("id");
-      if(customerId==0){
-        customerId=1;
-      }
-      this.listOrder(customerId);
+      this.listOrder(this.currentUser.id);
     }
     );
   }
-  
+
+  onSubmit(): void {
+    const { tempOrder, reasonForReturn } = this.form;
+    console.log(this.currentUser);
+    this.pserv.sendCancelRequest(tempOrder, this.currentUser.id, reasonForReturn).subscribe({
+      next: data => {
+        console.log(data);
+        this.isSuccessful = true;
+        this.isSubmittedFailed = false;
+      },
+      error: err => {
+        console.log(err);
+        this.errorMessage = err.error.message;
+        this.isSubmittedFailed = true;
+      }
+    });
+  }
+
   listOrder(customerId: number){
     this.pserv.getAllOrdersOnCustomer(customerId).subscribe(
       data=>{
@@ -41,15 +58,5 @@ export class CancelOrderComponent implements OnInit {
         console.log(data);
       }
     );
-  }
-  
-  focusOrder(target: Order){
-    this.targetOrder=target;
-    
-  }
-
-  onSubmit(){
-    const { description } = this.form;
-    this.pserv.submitCancelRequest(this.targetOrder.orderId, description);
   }
 }

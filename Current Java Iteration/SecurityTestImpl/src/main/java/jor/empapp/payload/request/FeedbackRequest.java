@@ -4,8 +4,6 @@ import javax.persistence.Column;
 import javax.validation.constraints.NotBlank;
 
 public class FeedbackRequest {
-	@NotBlank
-	private Long productId;
 	
 	@NotBlank
 	private Long customerId;
@@ -17,14 +15,9 @@ public class FeedbackRequest {
 	private int rating;
 	
 	private String comment;
+	
+	private boolean deliveryOnTime;
 
-	public Long getProductId() {
-		return productId;
-	}
-
-	public void setProductId(Long productId) {
-		this.productId = productId;
-	}
 
 	public Long getCustomerId() {
 		return customerId;
@@ -49,6 +42,23 @@ public class FeedbackRequest {
 	public void setComment(String comment) {
 		this.comment = comment;
 	}
+
+	public Long getOrderId() {
+		return orderId;
+	}
+
+	public void setOrderId(Long orderId) {
+		this.orderId = orderId;
+	}
+
+	public boolean isDeliveryOnTime() {
+		return deliveryOnTime;
+	}
+
+	public void setDeliveryOnTime(boolean deliveryOnTime) {
+		this.deliveryOnTime = deliveryOnTime;
+	}
+	
 	
 
 	

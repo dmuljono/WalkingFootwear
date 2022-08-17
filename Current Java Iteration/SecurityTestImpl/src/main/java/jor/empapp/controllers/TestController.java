@@ -123,7 +123,7 @@ public class TestController {
 	@GetMapping("/testOrderForm")
 	public String testOrderForm() {
 		OrderForm of = new OrderForm();
-		Long cusId = (long) 1;
+		Long cusId = (long) 2;
 		pCurrent = productRepository.findById(cusId).get();
 		of.setProduct(pCurrent);
 		of.setQuantity(10);

@@ -27,6 +27,7 @@ import jor.empapp.models.ReturnOrder;
 import jor.empapp.payload.request.FeedbackRequest;
 import jor.empapp.payload.request.OrderRequest;
 import jor.empapp.payload.request.ReturnRequest;
+import jor.empapp.payload.response.MessageResponse;
 import jor.empapp.repositorys.CancelOrderRepository;
 import jor.empapp.repositorys.CustomerRepository;
 import jor.empapp.repositorys.EmployeeRepository;
@@ -35,7 +36,7 @@ import jor.empapp.repositorys.OrderFormRepository;
 import jor.empapp.repositorys.ProductRepository;
 import jor.empapp.repositorys.ReturnOrderRepository;
 
-@CrossOrigin
+@CrossOrigin(origins = "http://localhost:4200", maxAge = 3600, allowCredentials="true")
 @RestController
 @RequestMapping("/api/test/customer")
 public class CustomerController {
@@ -64,7 +65,9 @@ public class CustomerController {
 	@GetMapping("/allOrdersOnCustomer/{customerId}")
 	public List<OrderForm> allOrdersOnCustomer(@PathVariable long customerId ){
 		try {
+			System.out.println("lewat");
 			List<OrderForm> orderList = orderFormRepository.findByCustomerCustomerId(customerId);
+			System.out.println("lewat");
 			return orderList;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -91,21 +94,21 @@ public class CustomerController {
 		}
 	}
 	
-	@PostMapping("/cancelOrderTest")
+	@PostMapping("/cancelOrder")
 	public ResponseEntity<?> cancelOrderTest(@RequestBody ReturnRequest returnRequest) {
 		OrderForm order = orderFormRepository.findById(returnRequest.getOrderId()).get();
-		CancelOrder returnOrder = new CancelOrder();
-		returnOrder.setOrderId(order.getOrderId());
-		returnOrder.setCustomer(order.getCustomer());
-		returnOrder.setProduct(order.getProduct());
-		returnOrder.setPurchaseDate(order.getPurchaseDate());
-		returnOrder.setQuantity(order.getQuantity());
-		returnOrder.setTotalAmount(order.getTotalAmount());
-		returnOrder.setReasonForCancel(returnRequest.getReasonForReturn());
-		cancelOrderRepository.save(returnOrder);
+		CancelOrder cancelOrder = new CancelOrder();
+		cancelOrder.setOrderId(order.getOrderId());
+		cancelOrder.setCustomer(order.getCustomer());
+		cancelOrder.setProduct(order.getProduct());
+		cancelOrder.setPurchaseDate(order.getPurchaseDate());
+		cancelOrder.setQuantity(order.getQuantity());
+		cancelOrder.setTotalAmount(order.getTotalAmount());
+		cancelOrder.setReasonForCancel(returnRequest.getReasonForReturn());
+		System.out.println("Cancel order");
+		cancelOrderRepository.save(cancelOrder);
 		orderFormRepository.deleteById(order.getOrderId());
-		orderFormRepository.deleteById(order.getOrderId());
-		return ResponseEntity.ok("Done");
+		return ResponseEntity.ok(new MessageResponse("Submitted!"));
 	}
 	
 	@PostMapping("/returnOrder")
@@ -120,9 +123,10 @@ public class CustomerController {
 		returnOrder.setTotalAmount(order.getTotalAmount());
 		returnOrder.setReasonForReturn(returnRequest.getReasonForReturn());
 		//returnOrder.setReturnApproved(true);
+		System.out.println("Return order");
 		returnOrderRepository.save(returnOrder);
 		orderFormRepository.deleteById(order.getOrderId());
-		return ResponseEntity.ok("Done");
+		return ResponseEntity.ok(new MessageResponse("Submitted!"));
 	}
 	
 //	@GetMapping("/search/findByNameContaining?name={name}")
@@ -145,12 +149,14 @@ public class CustomerController {
 	@PostMapping("/customerFeedback")
 	public ResponseEntity<?> customerFeedback(@RequestBody FeedbackRequest feedbackRequest){
 		Feedback feedback = new Feedback();
-		feedback.setProduct(productRepository.findById(feedbackRequest.getProductId()).get());
+		OrderForm currentOrder = orderFormRepository.findById(feedbackRequest.getOrderId()).get();
+		feedback.setProduct(currentOrder.getProduct());
 		feedback.setCustomer(customerRepository.findById(feedbackRequest.getCustomerId()).get());
 		feedback.setComment(feedbackRequest.getComment());
 		feedback.setRating(feedback.getRating());
+		feedback.setDeliveryOnTime(feedbackRequest.isDeliveryOnTime());
 		feedbackRepository.save(feedback);
-		return ResponseEntity.ok("Done");
+		return ResponseEntity.ok(new MessageResponse("Submitted!"));
 		
 	}
 	

@@ -19,11 +19,11 @@ import org.hibernate.annotations.CreationTimestamp;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
-@Table(name="Cancels")
+@Table(name="feedback")
 public class Feedback {
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "orderId")
+    @Column(name = "feedbackId")
 	private Long feedbackId;
 	
 	@ManyToOne
@@ -35,13 +35,13 @@ public class Feedback {
 	private Customer customer;
 	
 	@ManyToOne
-	@JoinColumn(name="order", referencedColumnName="order_id", nullable=true)
+	@JoinColumn(name="orders", referencedColumnName="orderId", nullable=true)
 	private OrderForm order;
 	
 	@Column(name = "deliveryOnTime")
 	private boolean deliveryOnTime;
 	
-	@Column(name = "rating (1 to 5)")
+	@Column(name = "rating")
 	private int rating;
 	
 	@Column(name = "feedback")
@@ -107,6 +107,16 @@ public class Feedback {
 	public void setDateCreated(Date dateCreated) {
 		this.dateCreated = dateCreated;
 	}
+
+	public OrderForm getOrder() {
+		return order;
+	}
+
+	public void setOrder(OrderForm order) {
+		this.order = order;
+	}
+	
+	
 
 	
 	

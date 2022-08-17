@@ -38,6 +38,7 @@ import { ViewFeedbackComponent } from './components/view-feedback/view-feedback.
 import { ViewCancelReturnComponent } from './components/view-cancel-return/view-cancel-return.component';
 import { ViewWalkInOrdersComponent } from './components/view-walk-in-orders/view-walk-in-orders.component';
 import { ViewOnlineOrdersComponent } from './components/view-online-orders/view-online-orders.component';
+import { CartService } from './model/cart-service';
 @NgModule({
   declarations: [
     AppComponent,
@@ -79,7 +80,7 @@ import { ViewOnlineOrdersComponent } from './components/view-online-orders/view-
     ReactiveFormsModule,
     HttpClientModule
   ],
-  providers: [httpInterceptorProviders],
+  providers: [httpInterceptorProviders,CartService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

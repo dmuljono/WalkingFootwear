@@ -15,22 +15,28 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import jor.empapp.models.CancelOrder;
 import jor.empapp.models.Customer;
 import jor.empapp.models.Employee;
+import jor.empapp.models.Feedback;
 import jor.empapp.models.OrderForm;
 import jor.empapp.models.Product;
 import jor.empapp.models.ProductCategory;
+import jor.empapp.models.ReturnOrder;
 import jor.empapp.models.WalkinOrderForm;
 import jor.empapp.payload.request.OrderRequest;
 import jor.empapp.payload.request.ProductRequest;
 import jor.empapp.payload.request.StockUpdateRequest;
 import jor.empapp.payload.request.WalkInOrderRequest;
 import jor.empapp.payload.response.MessageResponse;
+import jor.empapp.repositorys.CancelOrderRepository;
 import jor.empapp.repositorys.CustomerRepository;
 import jor.empapp.repositorys.EmployeeRepository;
+import jor.empapp.repositorys.FeedbackRepository;
 import jor.empapp.repositorys.OrderFormRepository;
 import jor.empapp.repositorys.ProductCategoryRepository;
 import jor.empapp.repositorys.ProductRepository;
+import jor.empapp.repositorys.ReturnOrderRepository;
 import jor.empapp.repositorys.WalkinOrderFormRepository;
 
 @CrossOrigin(origins = "http://localhost:4200", maxAge = 3600, allowCredentials="true")
@@ -55,6 +61,15 @@ public class ManagerController {
 	
 	@Autowired
 	private WalkinOrderFormRepository wofRepository;
+	
+	@Autowired
+	private FeedbackRepository feedbackRepository;
+	
+	@Autowired
+	private CancelOrderRepository cancelOrderRepository;
+	
+	@Autowired
+	private ReturnOrderRepository returnOrderRepository;
 	
 	
 	
@@ -248,5 +263,36 @@ public class ManagerController {
 			System.out.println("Exception");
 			return ResponseEntity.badRequest().body("Not Okay");
 		}
+	}
+	
+	@GetMapping("/getAllFeedbacks")
+	public List<Feedback> getAllFeedbacks() {
+		System.out.println("View Feedbacks");
+		List<Feedback> fList = feedbackRepository.findAll();
+		return fList;
+	}
+	
+	@GetMapping("/getAllCancels")
+	public List<CancelOrder> getAllCancels() {
+		List<CancelOrder> cList = cancelOrderRepository.findAll();
+		return cList;
+	}
+	
+	@GetMapping("/getAllReturns")
+	public List<ReturnOrder> getAllReturns() {
+		List<ReturnOrder> rList = returnOrderRepository.findAll();
+		return rList;
+	}
+	
+	@GetMapping("/getAllWalkInOrders")
+	public List<WalkinOrderForm> getAllWalkInOrders() {
+		List<WalkinOrderForm> wofList = wofRepository.findAll();
+		return wofList;
+	}
+	
+	@GetMapping("/getOnlineOrders")
+	public List<OrderForm> getAllOnlineOrders() {
+		List<OrderForm> oList = orderFormRepository.findAll();
+		return oList;
 	}
 }

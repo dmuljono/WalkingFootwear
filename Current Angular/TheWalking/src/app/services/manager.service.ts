@@ -5,6 +5,10 @@ import { map } from 'rxjs';
 import { Product } from '../model/product';
 import { Employee } from '../model/employee';
 import { Order } from '../model/order';
+import { Feedback } from '../model/feedback';
+import { CancelOrder } from '../model/cancel-order';
+import { ReturnOrder } from '../model/return-order';
+import { WalkInOrder } from '../model/walk-in-order';
 
 const MANAGER_API = 'http://localhost:5000/api/test/manager/';
 
@@ -77,6 +81,35 @@ submitWalkInOrder(phoneNumber:string, email:string, productIds:number[], quantit
     },
     httpOptions
   );
+}
+getAllFeedback():Observable<Feedback[]>{
+  const url=`http://localhost:5000/api/test/manager/getAllFeedbacks`;
+  console.log(url);
+  return this.http.get<Feedback[]>(url) ;
+}
+
+getAllCancels():Observable<CancelOrder[]>{
+  const url=`http://localhost:5000/api/test/manager/getAllCancels`;
+  console.log(url);
+  return this.http.get<CancelOrder[]>(url) ;
+}
+
+getAllReturns():Observable<ReturnOrder[]>{
+  const url=`http://localhost:5000/api/test/manager/getAllReturns`;
+  console.log(url);
+  return this.http.get<ReturnOrder[]>(url) ;
+}
+
+getAllWalkInOrders():Observable<WalkInOrder[]>{
+  const url=`http://localhost:5000/api/test/manager/getAllWalkInOrders`;
+  console.log(url);
+  return this.http.get<WalkInOrder[]>(url) ;
+}
+
+getAllOnlineOrders():Observable<Order[]>{
+  const url=`http://localhost:5000/api/test/manager/getOnlineOrders`;
+  console.log(url);
+  return this.http.get<Order[]>(url) ;
 }
 
 }

@@ -55,6 +55,9 @@ public class ReturnOrder {
 	@Column(name = "returnApproved")
 	private boolean returnApproved;
 	
+	//@Column(name="returnReviewed")
+	//private boolean returnReviewed
+	
 	public Long getOrderId() {
 		return orderId;
 	}

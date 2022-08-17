@@ -1,0 +1,51 @@
+<div class="main-content">
+    <h1>Returns</h1>
+    <table>
+        <tr>
+            <th>Return ID</th>
+            <th>Product Name</th>
+            <th>Order ID</th>
+            <th>Customer Email</th>
+            <th>Reason For Return</th>
+            <th>Total Amount</th>
+            <th>Purchase Date</th>
+            <th>Return Approved</th>
+        </tr>
+        <tr *ngFor="let tempProduct of returns">
+            <td>{{ tempProduct.returnId }}</td>
+            <td>{{ tempProduct.product.name }}</td>
+            <td>{{ tempProduct.orderId }}</td>
+            <td>{{ tempProduct.customer.email }}</td>
+            <td>{{ tempProduct.reasonForReturn }}</td>
+            <td>{{ tempProduct.totalAmount }}</td>
+            <td>{{ tempProduct.purchaseDate }}</td>
+            <td>{{tempProduct.returnApproved}}</td>
+        </tr>
+
+    </table>
+    <br><br><br><br>
+    <h1>Cancels</h1>
+    <table>
+        <tr>
+            <th>Cancel ID</th>
+            <th>Product Name</th>
+            <th>Order ID</th>
+            <th>Customer Email</th>
+            <th>Reason For Return</th>
+            <th>Total Amount</th>
+            <th>Purchase Date</th>
+        </tr>
+
+        <tr *ngFor="let tempProduct of cancels">
+            <td>{{ tempProduct.cancelId }}</td>
+            <td>{{ tempProduct.product.name }}</td>
+            <td>{{ tempProduct.orderId }}</td>
+            <td>{{ tempProduct.customer.email }}</td>
+            <td>{{ tempProduct.reasonForCancel }}</td>
+            <td>{{ tempProduct.totalAmount }}</td>
+            <td>{{ tempProduct.purchaseDate }}</td>
+        </tr>
+
+    </table>
+    
+</div>

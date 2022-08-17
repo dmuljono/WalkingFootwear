@@ -1,1 +1,25 @@
-<p>view-feedback works!</p>
+<div class="main-content">
+    
+    <table>
+        <tr>
+            <th>Feedback ID</th>
+            <th>Product Name</th>
+            <th>Customer Email</th>
+            <th>Rating</th>
+            <th>Delivery On Time</th>
+            <th>Feedback Date</th>
+        </tr>
+
+        <tr *ngFor="let tempProduct of feedbacks">
+            <td>{{ tempProduct.feedbackId }}</td>
+            <td>{{ tempProduct.product.name }}</td>
+            <td>{{ tempProduct.customer.email }}</td>
+            <td>{{ tempProduct.rating }}</td>
+            <td>{{ tempProduct.comment}}</td>
+            <td>{{ tempProduct.deliveryOnTime }}</td>
+            <td>{{ tempProduct.dateCreated }}</td>
+        </tr>
+
+    </table>
+    
+</div>

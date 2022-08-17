@@ -1,0 +1,24 @@
+<div class="main-content">
+    
+    <table>
+        <tr>
+            <th>Order ID</th>
+            <th>Product Name</th>
+            <th>Customer Email</th>
+            <th>Purchase Date</th>
+            <th>Quantity</th>
+            <th>Total Amount</th>
+        </tr>
+
+        <tr *ngFor="let tempProduct of orders">
+            <td>{{ tempProduct.orderId }}</td>
+            <td>{{ tempProduct.product.name }}</td>
+            <td>{{ tempProduct.customer.email }}</td>
+            <td>{{ tempProduct.purchaseDate }}</td>
+            <td>{{ tempProduct.quantity}}</td>
+            <td>{{ tempProduct.totalAmount }}</td>
+        </tr>
+
+    </table>
+    
+</div>

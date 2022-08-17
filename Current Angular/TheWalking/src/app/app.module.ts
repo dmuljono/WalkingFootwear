@@ -35,6 +35,9 @@ import { CancelOrderComponent } from './components/cancel-order/cancel-order.com
 import { CheckoutComponent } from './components/checkout/checkout.component';
 import { CustomerFeedbackComponent } from './components/customer-feedback/customer-feedback.component';
 import { ViewFeedbackComponent } from './components/view-feedback/view-feedback.component';
+import { ViewCancelReturnComponent } from './components/view-cancel-return/view-cancel-return.component';
+import { ViewWalkInOrdersComponent } from './components/view-walk-in-orders/view-walk-in-orders.component';
+import { ViewOnlineOrdersComponent } from './components/view-online-orders/view-online-orders.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -64,7 +67,10 @@ import { ViewFeedbackComponent } from './components/view-feedback/view-feedback.
     CancelOrderComponent,
     CheckoutComponent,
     CustomerFeedbackComponent,
-    ViewFeedbackComponent
+    ViewFeedbackComponent,
+    ViewCancelReturnComponent,
+    ViewWalkInOrdersComponent,
+    ViewOnlineOrdersComponent
   ],
   imports: [
     BrowserModule,

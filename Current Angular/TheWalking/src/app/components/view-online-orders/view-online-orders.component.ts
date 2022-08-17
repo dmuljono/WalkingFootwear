@@ -3,15 +3,14 @@ import { ActivatedRoute } from '@angular/router';
 import { Feedback } from 'src/app/model/feedback';
 import { Order } from 'src/app/model/order';
 import { ManagerService } from 'src/app/services/manager.service';
-import { StorageService } from 'src/app/services/storage.service';
 
 @Component({
-  selector: 'app-view-feedback',
-  templateUrl: './view-feedback.component.html',
-  styleUrls: ['./view-feedback.component.css']
+  selector: 'app-view-online-orders',
+  templateUrl: './view-online-orders.component.html',
+  styleUrls: ['./view-online-orders.component.css']
 })
-export class ViewFeedbackComponent implements OnInit {
-  feedbacks: Feedback[];
+export class ViewOnlineOrdersComponent implements OnInit {
+  orders: Order[];
 
   constructor(private pserv: ManagerService, private route:ActivatedRoute) { }
 
@@ -24,9 +23,9 @@ export class ViewFeedbackComponent implements OnInit {
 
 
   listOrder(){
-    this.pserv.getAllFeedback().subscribe(
+    this.pserv.getAllOnlineOrders().subscribe(
       data=>{
-        this.feedbacks=data;
+        this.orders=data;
         console.log(data);
       }
     );

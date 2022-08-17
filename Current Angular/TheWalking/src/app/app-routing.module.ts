@@ -23,6 +23,10 @@ import { ReturnOrderComponent } from './components/return-order/return-order.com
 import { CancelOrderComponent } from './components/cancel-order/cancel-order.component';
 import { CheckoutComponent } from './components/checkout/checkout.component';
 import { CustomerFeedbackComponent } from './components/customer-feedback/customer-feedback.component';
+import { ViewFeedbackComponent } from './components/view-feedback/view-feedback.component';
+import { ViewCancelReturnComponent } from './components/view-cancel-return/view-cancel-return.component';
+import { ViewWalkInOrdersComponent } from './components/view-walk-in-orders/view-walk-in-orders.component';
+import { ViewOnlineOrdersComponent } from './components/view-online-orders/view-online-orders.component';
 
 // import { AddProductComponent } from './components/add-product/add-product.component';
 
@@ -50,6 +54,10 @@ const routes: Routes = [
   {path: 'cart-details', component: CartDetailsComponent},
   {path: 'checkout', component: CheckoutComponent},
   {path: 'feedback', component: CustomerFeedbackComponent},
+  {path: 'viewAllFeedbacks', component: ViewFeedbackComponent},
+  {path: 'viewCancelsReturns', component: ViewCancelReturnComponent},
+  {path: 'viewWalkInOrders', component: ViewWalkInOrdersComponent},
+  {path: 'viewOnlineOrders', component: ViewOnlineOrdersComponent},
   {path: '', redirectTo: 'home', pathMatch: 'full' }
 
 

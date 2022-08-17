@@ -46,6 +46,8 @@ export class ProductListComponent implements OnInit {
     const theCartItem = new CartItem(theProduct);
 
     this.cartService.addToCart(theCartItem);
+    console.log(this.cartService.cartItems);
+    this.cartService.cartItems.map(items => console.log(items));
 
 
 

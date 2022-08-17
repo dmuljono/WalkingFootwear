@@ -3,33 +3,42 @@ import { Subject } from 'rxjs';
 
 export class CartService {
 
-    cartItems:CartItem [] = []
+    cartItems: CartItem[] = Array();
     totalPrice: Subject<number> = new Subject<number>();
     totalQuantity: Subject<number> = new Subject<number>();
+    totalPriceNum: number = 0;
+    totalQuantityNum: number = 0;
 
 
     addToCart(theCartItem :CartItem){
         let alreadyExistsInCart: boolean = false;
         let existingCartItem: CartItem = undefined;
+        console.log(theCartItem);
+        console.log(this.cartItems.length);
 
         if (this.cartItems.length > 0) {
-
-            for(let tempCartItem of this.cartItems){
-                if(tempCartItem.id == theCartItem.id){
-                    existingCartItem == tempCartItem;
-                    break
-                }
-            }
-            alreadyExistsInCart = (existingCartItem != undefined)
-            if(alreadyExistsInCart){
-                existingCartItem.quantity++;
-            }
-            else{
-                this.cartItems.push(theCartItem);
-            }
-           this.computeCartTotals();
-        }
+      for (let tempCartItem of this.cartItems) {
+        if (tempCartItem.id === theCartItem.id) {
+          existingCartItem = tempCartItem;
+          break;
+          }
+      }
+      alreadyExistsInCart = (existingCartItem != undefined)
     }
+
+    
+
+    if(alreadyExistsInCart){
+      existingCartItem.quantity++;
+    }
+    else {
+      this.cartItems.push(theCartItem);
+    }
+
+    this.computeCartTotals();    
+    console.log(this.cartItems.length);
+    console.log()
+  }
 
     computeCartTotals(){
         let totalPriceValue : number = 0;
@@ -41,5 +50,8 @@ export class CartService {
         }
         this.totalPrice.next(totalPriceValue);
         this.totalQuantity.next(totalQuantityValue);
+        this.totalPriceNum = totalPriceValue;
+        this.totalQuantityNum = totalQuantityValue;
     }
+
 }

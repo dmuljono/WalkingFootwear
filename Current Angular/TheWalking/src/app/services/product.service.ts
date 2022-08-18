@@ -16,10 +16,16 @@ export class ProductService {
   constructor(private http:HttpClient) { }
 
   getProductList(id:number):Observable<Product[]>{
-      const url=`http://localhost:5000/api/test/manager/category/${id}`;
+      const url=`http://localhost:5000/api/test/customer/category/${id}`;
       console.log(url);
       return this.http.get<Product[]>(url);
   }
+
+  getAllProductList():Observable<Product[]>{
+    const url=`http://localhost:5000/api/test/customer/allProducts`;
+    console.log(url);
+    return this.http.get<Product[]>(url);
+}
 
   addProduct(p:any):any{
     const url='http://localhost:5000/api/test/manager/addProduct';

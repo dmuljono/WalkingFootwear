@@ -1,133 +1,91 @@
-<form [formGroup] = "checkoutFormGroup" (ngSubmit) ="onSubmit()"> 
-<div formGroupName = "customer" class ="form-area">
-    <h3>Customer</h3>
 
-    <div class="row">
-        <div class ="col-md-2"> <label> First Name </label></div>
-        <input formControlName="firstName" type="text">
-    </div>
-
-    <div class="row">
-        <div class ="col-md-2"> <label> Last Name </label></div>
-        <input formControlName="lastName" type="text">
-    </div>
-
-    <div class="row">
-        <div class ="col-md-2"> <label> Email </label></div>
-        <input formControlName="Email" type="text">
-    </div>
-
-
-
-</div>
-
-<div formGroupName = "shipping" class ="form-area">
+<div class ="form-area">
     <h3>Shipping & Billing Address</h3>
+    <form
+        *ngIf="!isSuccessful"
+        name="form"
+        (ngSubmit)="f.form.valid && onSubmit()"
+        #f="ngForm"
+        novalidate
+      >
 
-    <div class="row">
-        <div class ="col-md-2"> <label> Street </label></div>
-        <input formControlName="street" type="text">
+    <div class="form-group">
+        <label for="street">Street</label>
+        <input
+          type="text"
+          class="form-control"
+          name="street"
+          [(ngModel)]="form.street"/>
+      </div>
+    <div class="form-group">
+        <label for="city">City</label>
+        <input
+          type="text"
+          class="form-control"
+          name="city"
+          [(ngModel)]="form.city"/>
     </div>
-
-    <div class="row">
-        <div class ="col-md-2"> <label> City </label></div>
-        <input formControlName="city" type="text">
+    <div class="form-group">
+        <label for="state">State</label>
+        <input
+          type="text"
+          class="form-control"
+          name="state"
+          [(ngModel)]="form.state"/>
     </div>
-
-    <div class="row">
-        <div class ="col-md-2"> <label> State </label></div>
-        <input formControlName="state" type="text">
+    <div class="form-group">
+        <label for="zipCode">ZIP code</label>
+        <input
+          type="text"
+          class="form-control"
+          name="zipCode"
+          [(ngModel)]="form.zipCode"/>
     </div>
-
-    <div class="row">
-        <div class ="col-md-2"> <label> Zip Code </label></div>
-        <input formControlName="zipcode" type="text">
-    </div>
-
-</div>
-<!--
-<div formGroupName = "billing" class ="form-area">
-    <h3>Billing Address</h3>
-
-    <div class="row">
-        <div class ="col-md-2"> <label> Street </label></div>
-        <input formControlName="street" type="text">
-    </div>
-
-    <div class="row">
-        <div class ="col-md-2"> <label> City </label></div>
-        <input formControlName="city" type="text">
-    </div>
-
-    <div class="row">
-        <div class ="col-md-2"> <label> State </label></div>
-        <input formControlName="state" type="text">
-    </div>
-
-    <div class="row">
-        <div class ="col-md-2"> <label> Zip Code </label></div>
-        <input formControlName="zipcode" type="text">
-    </div>
-
-</div>
--->
-<div formGroupName = "paymethod" class ="form-area">
-    <h3>Credit Card</h3>
-
-    <div class="row">
-        <div class ="col-md-2"> <label> Card Type </label></div>
-        <input formControlName="cardType" type="text">
-    </div>
-
-    <div class="row">
-        <div class ="col-md-2"> <label> Name on Card</label></div>
-        <input formControlName="cardName" type="text">
-    </div>
-
-    <div class="row">
-        <div class ="col-md-2"> <label> Card Number </label></div>
-        <input formControlName="cardNumber" type="text">
-    </div>
-
-    <div class="row">
-        <div class ="col-md-2"> <label> Security Code </label></div>
-        <input formControlName="securityCode" type="text">
-    </div>
-
-    <div class="row">
-        <div class ="col-md-2"> <label> Exp Month </label></div>
-        <div class="input-space">
-            <select formControlName="expirationMonth">
-                <option *ngFor="let month of creditCardMonths">
-                    {{month}}
-                </option>
-            </select>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class ="col-md-2"> <label> Exp Year </label></div>
-        <div class="input-space">
-            <select formControlName="expirationYear" (change)="handleMonthsAndYears">
-                <option *ngFor="let year of creditCardYears">
-                    {{year}}
-                </option>
-            </select>
-        </div>
-    </div>
-
-
-</div>
-<div class="form-area">
-    <h3>Review Your Order</h3>
-
-    <p>Total Quantity: {{ totalQuantity }}</p>
-    <p>Shipping: FREE</p>
-    <p>Total Price: {{ totalPrice | currency: 'USD' }}</p>
-</div>
-<div class="text-center">
-    <button type="submit" class="btn btn-info"> Purchase </button>
-</div>
-
-
 </form>
+</div>
+
+<div class ="form-area">
+    <h3>Payment</h3>
+    <form
+        *ngIf="!isSuccessful"
+        name="form"
+        (ngSubmit)="f.form.valid && onSubmit()"
+        #f="ngForm"
+        novalidate
+      >
+<div class="form-group">
+    <label for="cardNum">Card Number</label>
+    <input
+      type="text"
+      class="form-control"
+      name="cardNum"
+      [(ngModel)]="form.cardNum"/>
+  </div>
+  <div class="form-group">
+    <label for="expiry">Expiry Date</label>
+    <input
+      type="text"
+      class="form-control"
+      name="expiry"
+      [(ngModel)]="form.expiry"/>
+  </div>
+  <div class="form-group">
+    <label for="CVV">CVV</label>
+    <input
+      type="text"
+      class="form-control"
+      name="CVV"
+      [(ngModel)]="form.CVV"/>
+  </div>
+  <div class="form-group">
+    <button class="btn btn-primary btn-block">Register Customer</button>
+  </div>
+
+  <div class="alert alert-warning" *ngIf="f.submitted && isRegisterFailed">
+    Customer Registration Failed!<br />
+  </div>
+</form>
+
+<div class="alert alert-success" *ngIf="isSuccessful">
+  Your Customer Registration was successful!
+</div>

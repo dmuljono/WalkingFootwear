@@ -23,18 +23,14 @@ export class ProductListComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(()=>{
-      let categoryId=+this.route.snapshot.paramMap.get("id");
-      if(categoryId==0){
-        categoryId = 1;
-      }
-      this.listProduct(categoryId);
+      this.listProduct();
       this.updateCartStatus();
     });
 
   }
 
-  listProduct(id:number){
-    this.pserv.getProductList(id).subscribe(data=>{
+  listProduct(){
+    this.pserv.getAllProductList().subscribe(data=>{
       this.products = data;
     });
   }

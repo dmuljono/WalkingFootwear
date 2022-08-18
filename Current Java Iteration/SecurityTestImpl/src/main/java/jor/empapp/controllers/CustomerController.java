@@ -24,7 +24,10 @@ import jor.empapp.models.Feedback;
 import jor.empapp.models.OrderForm;
 import jor.empapp.models.Product;
 import jor.empapp.models.ReturnOrder;
+import jor.empapp.payload.request.AddressRequest;
+import jor.empapp.payload.request.CartItem;
 import jor.empapp.payload.request.FeedbackRequest;
+import jor.empapp.payload.request.OnlineOrderRequest;
 import jor.empapp.payload.request.OrderRequest;
 import jor.empapp.payload.request.ReturnRequest;
 import jor.empapp.payload.response.MessageResponse;
@@ -65,14 +68,36 @@ public class CustomerController {
 	@GetMapping("/allOrdersOnCustomer/{customerId}")
 	public List<OrderForm> allOrdersOnCustomer(@PathVariable long customerId ){
 		try {
-			System.out.println("lewat");
 			List<OrderForm> orderList = orderFormRepository.findByCustomerCustomerId(customerId);
-			System.out.println("lewat");
 			return orderList;
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
 		}
+	}
+	
+	@PostMapping("/setCustomerAddressOrder")
+	public ResponseEntity<?> setAddress(@RequestBody OnlineOrderRequest addReq){
+		System.out.println(addReq.getAddr()+addReq.getCustomId());
+		Customer current = customerRepository.findById(addReq.getCustomId()).get();
+		current.setAddress(addReq.getAddr());
+		System.out.println("Looping");
+		Long[] quantitys = addReq.getQuantitys();
+		Long[] productIds = addReq.getProductIds();
+		System.out.println(productIds.length);
+		System.out.println(quantitys.length);
+		for(int i = 0; i < productIds.length; i++) {
+			System.out.println("Looping3");
+			OrderForm newOrder = new OrderForm();
+			newOrder.setCustomer(current);
+			newOrder.setProduct(productRepository.findById(productIds[i]).get());
+			newOrder.setQuantity(quantitys[i].intValue());
+			System.out.println(newOrder.getProduct().getProductId());
+			orderFormRepository.save(newOrder);
+			newOrder.findTotalAmount();
+		}
+		
+		return ResponseEntity.ok(new MessageResponse("Submitted!"));
 	}
 	
 	@PostMapping("/placingOrderTest")
@@ -159,6 +184,52 @@ public class CustomerController {
 		return ResponseEntity.ok(new MessageResponse("Submitted!"));
 		
 	}
+	//All Products
+	@GetMapping("/allProducts")
+	public List<Product> findAllProducts() {
+		List<Product> productList = null;
+		try {
+		productList = productRepository.findAll();
+		
+		} catch (Exception ex) {
+			return null;
+			
+		}
+		
+		return productList;
+	}
 	
+	//Category Products
+			@GetMapping("/category/{categoryId}")
+			public List<Product> findProductByCategoryId(@PathVariable long categoryId) {
+				List<Product> productList = null;
+				try {
+				productList = productRepository.findByCategoryCategoryId(categoryId);
+				
+				} catch (Exception ex) {
+					return null;
+					
+				}
+				
+				return productList;
+			}
+		
+//			@PostMapping("/giveOrder")
+//			public ResponseEntity<?> giveOrder(@RequestBody OnlineOrderRequest ooReq){
+//				Customer current = customerRepository.findById(ooReq.getCustomerId()).get();
+//				Long[] quantitys = ooReq.getQuantity();
+//				Long[] productIds = ooReq.getProductIds();
+//				for(int i = 0; i > productIds.length; i++) {
+//					OrderForm newOrder = new OrderForm();
+//					newOrder.setCustomer(current);
+//					newOrder.setProduct(productRepository.findById(productIds[i]).get());
+//					newOrder.setQuantity(quantitys[i].intValue());
+//					orderFormRepository.save(newOrder);
+//					newOrder.findTotalAmount();
+//				}
+//				System.out.println("yoyo");
+//				return ResponseEntity.ok(new MessageResponse("Submitted!"));
+//			}
+
 }
 

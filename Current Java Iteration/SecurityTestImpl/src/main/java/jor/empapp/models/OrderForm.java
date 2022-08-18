@@ -21,6 +21,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 @Entity
 @Table(name="Orders")
 public class OrderForm {
+	//auto
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "orderId")
@@ -34,6 +35,7 @@ public class OrderForm {
 	@JoinColumn(name="customer", referencedColumnName="customer_id", nullable=true)
 	private Customer customer;
 	
+	//auto
 	@Column(name = "date_created")
     @CreationTimestamp
 	private Date purchaseDate;

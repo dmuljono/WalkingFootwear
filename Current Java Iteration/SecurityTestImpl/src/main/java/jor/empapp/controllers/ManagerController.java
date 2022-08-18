@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -43,6 +45,8 @@ import jor.empapp.repositorys.WalkinOrderFormRepository;
 @RestController
 @RequestMapping("/api/test/manager")
 public class ManagerController {
+	
+	private static final Logger logger=LogManager.getLogger(ManagerController.class);
 	
 	@Autowired
 	private ProductRepository pr;
@@ -87,35 +91,46 @@ public class ManagerController {
 		p.setCategory(pcr.findById(preq.getCategoryId()).get());
 		try {
 			pr.save(p);
+			logger.info("Product Added Successfully");
+			
 		} catch (Exception ex) {
+			logger.info("Unable to add Product: " + ex.getMessage());
+
+			
 			return  (ResponseEntity<?>) ResponseEntity.badRequest();
 			
+			
 		}
-		return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
+		return ResponseEntity.ok(new MessageResponse("Product registered successfully!"));
 	}
 	
-	// Product Registration
+	/* Product Registration
 		@PostMapping("/addProduct")
 		public String addProduct(@RequestBody Product p) {
 			String msg = "";
 			try {
 				pr.save(p);
 				msg = "Product Added Successfully";
+				logger.info("Product Added Successfully");
 			} catch (Exception ex) {
 				msg = "Unable to add Product: " + ex.getMessage();
+				logger.info("Unable to add Product: " + ex.getMessage());
 				
 			}
 			return msg;
-		}
+		}*/
 	
 	// Employee Registration
 	@PostMapping("/employees")
 	public ResponseEntity<?> addEmployee(@RequestBody Employee e) {
 		try {
 			er.save(e);
+			logger.info("Employee Added Successfully");
+
 			
 			
 		} catch(Exception ex) {
+			logger.info("Unable to add Employee: " + ex.getMessage());
 			return (ResponseEntity<?>) ResponseEntity.badRequest();
 			
 		}
@@ -127,10 +142,14 @@ public class ManagerController {
 	public ResponseEntity<?> addCustomer(@RequestBody Customer c) {
 		try {
 			cr.save(c);
+			logger.info("Customer Added Successfully");
+
 		} catch (Exception ex) {
+			logger.info("Unable to add Customer: " + ex.getMessage());
+
 			return (ResponseEntity<?>) ResponseEntity.badRequest();
 		}
-		return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
+		return ResponseEntity.ok(new MessageResponse("Customer registered successfully!"));
 	}
 	
 	// Find Products
@@ -141,6 +160,11 @@ public class ManagerController {
 		
 		if(op.isPresent()) {
 			p = op.get();
+			logger.info("Product Found Successfully");
+		}else {
+			
+			logger.info("Unable to find Product");
+
 		}
 		
 		return p;
@@ -154,6 +178,12 @@ public class ManagerController {
 		Optional<Employee> op = er.findById(id);
 		if(op.isPresent()) {
 			e = op.get();
+			logger.info("Employee Found Successfully");
+
+		}else {
+			
+			logger.info("Unable to find Employee");
+
 		}
 		return e;
 	}
@@ -166,8 +196,12 @@ public class ManagerController {
 		try {
 			er.deleteById(id);
 			msg = "Employee Deleted";
+			logger.info("Employee Deleted Successfully");
+
 		} catch (Exception ex) {
-			msg = "Could not delete employee: " + ex.getMessage();
+			msg = "Could not delete Employee: " + ex.getMessage();
+			logger.info("Could not delete Employee: " + ex.getMessage());
+
 		}
 		return msg;
 	}
@@ -178,7 +212,12 @@ public class ManagerController {
 		try {
 			Product product = pr.findById(sup.getProductId()).get();
 			product.setUnitsInStock(sup.getQuantity()+product.getUnitsInStock());
+			
+			logger.info("Added Stock Successfully");
+
 		} catch (Exception e) {
+			logger.info("Could not Add Stock: " + e.getMessage());
+
 			return ResponseEntity.badRequest().body("Not Okay");
 		}
 		pr.updateStockQuantity( sup.getQuantity(), sup.getProductId());
@@ -189,33 +228,40 @@ public class ManagerController {
 		@GetMapping("/allProducts")
 		public List<Product> findAllProducts() {
 			List<Product> ps = pr.findAll();
-			
+			logger.info("All Products Found Successfully");
+
 			return ps;
 			
 		}
 
-	//View All Orders
-	
-	//View Feedback
+		//View All Orders
 		
-	//View ByCategory ID
-
+		//View Feedback
+		
+		
+		//All Employees
 		@GetMapping("/allEmployees")
 		public List<Employee> findAllEmployee() {
 			List<Employee> empList = er.findAll();
 			System.out.println(empList.get(0).toString());
+			logger.info("All Employees Found Successfully");
+
 			return empList;
 		}
 		
-		//All Employees
+		//View ByCategory ID
 		@GetMapping("/category/{categoryId}")
 		public List<Product> findProductByCategoryId(@PathVariable long categoryId) {
 			List<Product> productList = null;
 			try {
 			productList = pr.findByCategoryCategoryId(categoryId);
+			logger.info("All Products by Category Found Successfully");
+
 			
 			} catch (Exception ex) {
-				return null;
+			logger.info("Could not find Products by Category: " + ex.getMessage());
+			return null;
+				
 				
 			}
 			
@@ -232,8 +278,12 @@ public class ManagerController {
 			pc.setCategoryName(name);
 			pcr.save(pc);
 			msg = "Successfully added Product Category:" +name;
+			logger.info("Added New Product Category Successfully");
+
 		} catch (Exception e) {
 			msg="Error adding Product Category";
+			logger.info("Could not add Product Category:" + e.getMessage());
+
 			e.printStackTrace();
 		}
 		return msg;
@@ -258,9 +308,13 @@ public class ManagerController {
 				orderForm.findTotalAmount();
 				wofRepository.save(orderForm);
 			}
+			logger.info("Placed WalkIn Order Successfully");
+
 			return ResponseEntity.ok(new MessageResponse("Stock Updated!"));
 		} catch (Exception e) {
 			System.out.println("Exception");
+			logger.info("Could not place WalkIn Order:" + e.getMessage());
+
 			return ResponseEntity.badRequest().body("Not Okay");
 		}
 	}
@@ -269,30 +323,40 @@ public class ManagerController {
 	public List<Feedback> getAllFeedbacks() {
 		System.out.println("View Feedbacks");
 		List<Feedback> fList = feedbackRepository.findAll();
+		logger.info("Got Feedback Successfully");
+
 		return fList;
 	}
 	
 	@GetMapping("/getAllCancels")
 	public List<CancelOrder> getAllCancels() {
 		List<CancelOrder> cList = cancelOrderRepository.findAll();
+		logger.info("Got Cancels Successfully");
+
 		return cList;
 	}
 	
 	@GetMapping("/getAllReturns")
 	public List<ReturnOrder> getAllReturns() {
 		List<ReturnOrder> rList = returnOrderRepository.findAll();
+		logger.info("Got Returns Successfully");
+
 		return rList;
 	}
 	
 	@GetMapping("/getAllWalkInOrders")
 	public List<WalkinOrderForm> getAllWalkInOrders() {
 		List<WalkinOrderForm> wofList = wofRepository.findAll();
+		logger.info("Got All WalkIn Orders Successfully");
+
 		return wofList;
 	}
 	
 	@GetMapping("/getOnlineOrders")
 	public List<OrderForm> getAllOnlineOrders() {
 		List<OrderForm> oList = orderFormRepository.findAll();
+		logger.info("Got All Online Orders Successfully");
+
 		return oList;
 	}
 }

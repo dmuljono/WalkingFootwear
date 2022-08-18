@@ -3,6 +3,8 @@ package jor.empapp.controllers;
 import java.util.List;
 import java.util.Optional;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -43,6 +45,8 @@ import jor.empapp.repositorys.ReturnOrderRepository;
 @RestController
 @RequestMapping("/api/test/customer")
 public class CustomerController {
+	private static final Logger logger=LogManager.getLogger(CustomerController.class);
+
 	
 	@Autowired
 	private ProductRepository productRepository;
@@ -69,9 +73,12 @@ public class CustomerController {
 	public List<OrderForm> allOrdersOnCustomer(@PathVariable long customerId ){
 		try {
 			List<OrderForm> orderList = orderFormRepository.findByCustomerCustomerId(customerId);
+			logger.info("Found Orders");
 			return orderList;
 		} catch (Exception e) {
 			e.printStackTrace();
+			logger.info("Could Not Find Orders" + e.getMessage());
+
 			return null;
 		}
 	}
@@ -96,7 +103,8 @@ public class CustomerController {
 			orderFormRepository.save(newOrder);
 			newOrder.findTotalAmount();
 		}
-		
+		logger.info("Order Submitted");
+
 		return ResponseEntity.ok(new MessageResponse("Submitted!"));
 	}
 	
@@ -112,9 +120,12 @@ public class CustomerController {
 			orderForm.setQuantity(orderRequest.getQuantity());
 			orderForm.findTotalAmount();
 			orderFormRepository.save(orderForm);
+			logger.info("Test Order Placed");
 			return "Order Placed";
 		} catch (Exception e) {
 			e.printStackTrace();
+			logger.info("Unable to Place Order: " + e.getMessage());
+
 			return "Product ID not found";
 		}
 	}
@@ -133,6 +144,8 @@ public class CustomerController {
 		System.out.println("Cancel order");
 		cancelOrderRepository.save(cancelOrder);
 		orderFormRepository.deleteById(order.getOrderId());
+		logger.info("Successfully Cancelled Order");
+
 		return ResponseEntity.ok(new MessageResponse("Submitted!"));
 	}
 	
@@ -151,6 +164,8 @@ public class CustomerController {
 		System.out.println("Return order");
 		returnOrderRepository.save(returnOrder);
 		orderFormRepository.deleteById(order.getOrderId());
+		logger.info("Successfully Returned Order");
+
 		return ResponseEntity.ok(new MessageResponse("Submitted!"));
 	}
 	
@@ -166,6 +181,8 @@ public class CustomerController {
 	public List<Product> findByName(@RequestParam(name = "name") String name){
 		List<Product> p;
 		p = productRepository.findByNameContaining(name);
+		logger.info("Searched For Product");
+
 		return p;
 	}
 	//Product Search
@@ -181,6 +198,7 @@ public class CustomerController {
 		feedback.setRating(feedback.getRating());
 		feedback.setDeliveryOnTime(feedbackRequest.isDeliveryOnTime());
 		feedbackRepository.save(feedback);
+		logger.info("Submitted Feedback");
 		return ResponseEntity.ok(new MessageResponse("Submitted!"));
 		
 	}
@@ -190,8 +208,12 @@ public class CustomerController {
 		List<Product> productList = null;
 		try {
 		productList = productRepository.findAll();
+		logger.info("Found all Products");
+
 		
 		} catch (Exception ex) {
+			logger.info("Unable to Find Products: " + ex.getMessage());
+
 			return null;
 			
 		}
@@ -205,8 +227,12 @@ public class CustomerController {
 				List<Product> productList = null;
 				try {
 				productList = productRepository.findByCategoryCategoryId(categoryId);
+				logger.info("Searched For Products By Category");
+
 				
 				} catch (Exception ex) {
+					logger.info("Unable to Find Products By Category: " + ex.getMessage());
+
 					return null;
 					
 				}

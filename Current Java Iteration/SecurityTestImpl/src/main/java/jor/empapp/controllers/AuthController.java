@@ -8,6 +8,8 @@ import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -44,6 +46,9 @@ import jor.empapp.security.jwt.JwtUtils;
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
+	
+	private static final Logger logger=LogManager.getLogger(AuthController.class);
+
 	@Autowired
 	AuthenticationManager authenticationManager;
 
@@ -85,12 +90,15 @@ public class AuthController {
 		List<String> roles = userDetails.getAuthorities().stream()
 				.map(item -> item.getAuthority())
 				.collect(Collectors.toList());
+		
+		logger.info("Signed in Successfully");
 
 		return ResponseEntity.ok(new JwtResponse(jwt, 
 												 userDetails.getId(), 
 												 userDetails.getFirstName(), 
 												 userDetails.getEmail(), 
 												 roles));
+
 	}
 
 	@PostMapping("/signup")
@@ -116,6 +124,8 @@ public class AuthController {
 		
 		if(strRole.contentEquals("customer")) {
 			System.out.println("Done1");
+			logger.info("Signed Up As Customer");
+
 			CustomerRole customerRole = customerRoleRepository.findByName(
 					ERole.CUSTOMER)
 					.orElseThrow(() -> new RuntimeException("Error: Role is not found."));
@@ -133,6 +143,8 @@ public class AuthController {
 		}
 		else if(strRole.contentEquals("employee")) {
 			System.out.println("Done2");
+			logger.info("Signed Up As Employee");
+
 			EmployeeRole employeeRole = employeeRoleRepository.findByName(
 					ERole.EMPLOYEE)
 					.orElseThrow(() -> new RuntimeException("Error: Role is not found."));
@@ -146,10 +158,14 @@ public class AuthController {
 			newEmployee.setRoles(toBeERole);
 			
 			employeeRepository.save(newEmployee);
+			
+
 			return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
 		}
 		else if (strRole.contentEquals("manager")) {
 			System.out.println("Done3");
+			logger.info("Signed Up As Manager");
+
 			EmployeeRole managerRole = employeeRoleRepository.findByName(
 					ERole.MANAGER)
 					.orElseThrow(() -> new RuntimeException("Error: Role is not found."));
@@ -165,11 +181,14 @@ public class AuthController {
 			newEmployee.setRoles(toBeERole);
 			System.out.println("Done");
 			employeeRepository.save(newEmployee);
+
 			return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
 		}
 		
 		else {
 			System.out.println("Done4");
+			logger.info("Signed Up As Customer Default");
+
 			CustomerRole customerRole = customerRoleRepository.findByName(
 					ERole.CUSTOMER)
 					.orElseThrow(() -> new RuntimeException("Error: Role is not found."));
@@ -183,6 +202,7 @@ public class AuthController {
 			newCustomer.setRoles(toBeCRole);
 			
 			customerRepository.save(newCustomer);
+
 			return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
 		}
 	}
@@ -191,6 +211,8 @@ public class AuthController {
 	  public ResponseEntity<?> logoutUser() {
 		
 	   // ResponseCookie cookie = jwtUtils.getCleanJwtCookie();
+		logger.info("Signed Out");
+
 	    return ResponseEntity.ok(new MessageResponse("You've been signed out!"));
 	  }
 		

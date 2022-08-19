@@ -103,6 +103,12 @@ export class CustomerService {
     );
   }
 
+  getStocks(id:number):Observable<Product[]>{
+    const url=`http://localhost:5000/api/test/customer/category/${id}`
+    console.log(url);
+    return this.http.get<Product[]>(url) ;
+}
+
   //nanti
   // giveOrder(customerId:number, address:string){
   //   return this.http.post(

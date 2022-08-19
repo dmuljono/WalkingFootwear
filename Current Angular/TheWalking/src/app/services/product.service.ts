@@ -31,4 +31,10 @@ export class ProductService {
     const url='http://localhost:5000/api/test/manager/addProduct';
      return this.http.post<any>(url,p,{headers:this.headers});
 }
+
+getStocks(id:number):Observable<Product[]>{
+  const url=`http://localhost:5000/api/test/customer/category/${id}`
+  console.log(url);
+  return this.http.get<Product[]>(url) ;
+}
 }

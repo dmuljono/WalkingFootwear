@@ -28,11 +28,7 @@ export class CustomerFeedbackComponent implements OnInit {
   ngOnInit(): void {
     this.currentUser = this.storageService.getUser();
     console.log(this.currentUser);
-    this.route.paramMap.subscribe(()=>{
-      let customerId=+this.route.snapshot.paramMap.get("id");
-      this.listOrder(this.currentUser.id);
-    }
-    );
+    this.listOrder(this.currentUser.id);
   }
 
   onSubmit(): void {

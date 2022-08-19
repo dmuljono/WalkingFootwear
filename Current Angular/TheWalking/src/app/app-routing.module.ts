@@ -43,7 +43,7 @@ const routes: Routes = [
   { path: 'registerProduct', component: RegisterProductComponent },
   { path: 'createCustomer', component: CreateCustomerComponent },
   { path: 'category/:id', component: ViewStockComponent },
-  { path: 'products', component: ProductListComponent},
+  { path: 'products/:id', component: ProductListComponent},
   { path: 'viewEmployees', component: ViewEmployeesComponent},
   { path: 'requestStock', component: AddStockComponent},
   {path: 'allProducts', component: AllStocksComponent},

@@ -35,8 +35,9 @@ export class ManagerService {
   }
 
   createCustomer(firstName: string, lastName:string, email: string, phoneNumber:string, address:string, password:string): Observable<any> {
+    const url=`http://localhost:5000/api/auth/signupCustomer`
     return this.http.post(
-      MANAGER_API + 'customers',
+      url,
       {
         firstName, lastName, email, phoneNumber, address, password
       },

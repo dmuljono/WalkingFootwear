@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from '../services/user.service';
 import { StorageService } from '../services/storage.service';
+import { CustomerService } from '../services/customer.service';
+import { Order } from '../model/order';
 
 @Component({
   selector: 'app-home',
@@ -10,11 +12,20 @@ import { StorageService } from '../services/storage.service';
 export class HomeComponent implements OnInit {
   content?: string;
   isLoggedIn = false;
-
-  constructor(private userService: UserService, private storageService: StorageService) { }
+  isCustomer = false;
+  currentRole: any;
+  currentUser:any;
+  orders: Order[];
+  constructor(private userService: UserService, private storageService: StorageService, private pserv: CustomerService) { }
 
   ngOnInit(): void {
     this.isLoggedIn = this.storageService.isLoggedIn();
+    this.currentUser = this.storageService.getUser();
+    this.currentUser.roles.map(role => this.currentRole=role);
+    if(this.currentRole == "CUSTOMER"){
+      this.isCustomer=true;
+    }
+    this.listOrder(this.currentUser.id);
     this.userService.getPublicContent().subscribe({
       next: data => {
         this.content = data;
@@ -32,5 +43,14 @@ export class HomeComponent implements OnInit {
         }
       }
     });
+  }
+
+  listOrder(customerId: number){
+    this.pserv.getAllOrdersOnCustomer(customerId).subscribe(
+      data=>{
+        this.orders=data;
+        console.log(data);
+      }
+    );
   }
 }

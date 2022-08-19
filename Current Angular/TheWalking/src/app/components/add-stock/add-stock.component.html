@@ -27,16 +27,16 @@
         
 
         <div class="form-group">
-          <button class="btn btn-primary btn-block">Register Product</button>
+          <button class="btn btn-primary btn-block">Add to stock</button>
         </div>
   
         <div class="alert alert-warning" *ngIf="f.submitted && isRegisterFailed">
-          Product Registration Failed!<br />{{ errorMessage }}
+          Stock Adding Failed!<br />{{ errorMessage }}
         </div>
       </form>
   
       <div class="alert alert-success" *ngIf="isSuccessful">
-        Your product registration is successful!
+        Your "Add to Stock" was successful!
       </div>
     </div>
   </div>

@@ -1,5 +1,9 @@
 <div class="main-content">
     <div class="section-content section-content-p30">
+        <button type="button"routerLink="/products/0"> All </button> <br>
+        <button type="button"routerLink="/products/1"> Shoes </button> <br>
+        <button type="button"routerLink="/products/2"> Handbags </button><br>
+        <button type="button"routerLink="/products/3"> Clothes </button><br><br><br><br>
         <div class="container-fluid">
             <div class = "row">
 
@@ -8,6 +12,7 @@
                     <div class = "product-box">
                         <img src="{{ tempProduct.imageUrl }}" height="50" />
                         <h1>{{tempProduct.name}}</h1>
+                        <h6>{{tempProduct.description}}</h6>
                         <div class = "price">{{tempProduct.unitPrice | currency:'USD'}}</div>
                         <!--<a href="#" class = "primary-btn">Add To Cart</a> -->
 

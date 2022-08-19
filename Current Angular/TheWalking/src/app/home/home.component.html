@@ -1,6 +1,13 @@
 <div class="container" *ngIf="isLoggedIn">
-    <header class="jumbotron">
-      <p>{{ content }}</p>
-    </header>
-  </div>
+  Hello there!
+  <div class = "forCustomer" *ngIf="isCustomer">
+    Hey, {{currentUser.firstName}}, here are your previous orders:
+    <br><br><br>
+    <tr *ngFor="let tempProduct of orders">
+      <td><img src="{{ tempProduct.product.imageUrl }}" height="5" /></td>
+      <td>{{ tempProduct.product.name }}</td>
+      <td>{{ tempProduct.quantity }}</td>
+    </tr>
+  </div>  
+</div>
   

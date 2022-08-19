@@ -15,6 +15,7 @@ export class ProductListComponent implements OnInit {
   products:Product[] =[];
   totalPrice : number = 0.00;
   totalQuantity : number = 0;
+  categoryId:number;
   
   
 
@@ -23,14 +24,15 @@ export class ProductListComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(()=>{
-      this.listProduct();
+      let categoryId=+this.route.snapshot.paramMap.get("id");
+      this.listProduct(categoryId);
       this.updateCartStatus();
     });
 
   }
 
-  listProduct(){
-    this.pserv.getAllProductList().subscribe(data=>{
+  listProduct(categoryId: number){
+    this.pserv.getStocks(categoryId).subscribe(data=>{
       this.products = data;
     });
   }

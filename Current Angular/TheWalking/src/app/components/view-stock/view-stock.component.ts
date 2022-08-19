@@ -15,9 +15,6 @@ export class ViewStockComponent implements OnInit {
   ngOnInit(): void {
     this.route.paramMap.subscribe(()=>{
       let categoryId=+this.route.snapshot.paramMap.get("id");
-      if(categoryId==0){
-        categoryId=1;
-      }
       this.listProduct(categoryId);
     }
     );

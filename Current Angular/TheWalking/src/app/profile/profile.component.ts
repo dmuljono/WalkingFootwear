@@ -8,10 +8,14 @@ import { StorageService } from '../services/storage.service';
 })
 export class ProfileComponent implements OnInit {
   currentUser: any;
+  currentRole: any;
 
   constructor(private storageService: StorageService) { }
 
   ngOnInit(): void {
     this.currentUser = this.storageService.getUser();
+    console.log(this.currentUser);
+    this.currentUser.roles.map(role => this.currentRole=role);
+    console.log(this.currentRole);
   }
 }

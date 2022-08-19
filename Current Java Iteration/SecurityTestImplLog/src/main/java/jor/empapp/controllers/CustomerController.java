@@ -101,6 +101,9 @@ public class CustomerController {
 			newOrder.setQuantity(quantitys[i].intValue());
 			System.out.println(newOrder.getProduct().getProductId());
 			newOrder.findTotalAmount();
+			Product p = productRepository.findById(productIds[i]).get();
+			int newQuantity = p.getUnitsInStock()-newOrder.getQuantity();
+			p.setUnitsInStock(newQuantity);
 			orderFormRepository.save(newOrder);
 		}
 		logger.info("Order Submitted");
@@ -139,9 +142,13 @@ public class CustomerController {
 		cancelOrder.setQuantity(order.getQuantity());
 		cancelOrder.setTotalAmount(order.getTotalAmount());
 		cancelOrder.setReasonForCancel(returnRequest.getReasonForReturn());
-		System.out.println("Cancel order");
 		cancelOrderRepository.save(cancelOrder);
 		orderFormRepository.deleteById(order.getOrderId());
+		Product p = cancelOrder.getProduct();
+		int newQuantity = p.getUnitsInStock()+cancelOrder.getQuantity();
+		System.out.println(newQuantity);
+		p.setUnitsInStock(newQuantity);
+		productRepository.save(p);
 		logger.info("Successfully Cancelled Order");
 		return ResponseEntity.ok(new MessageResponse("Submitted!"));
 	}

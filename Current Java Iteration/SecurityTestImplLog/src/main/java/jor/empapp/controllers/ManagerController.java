@@ -299,6 +299,9 @@ public class ManagerController {
 				orderForm.setEmail(orderRequest.getEmail());
 				orderForm.setPhoneNumber(orderRequest.getPhoneNumber());
 				orderForm.findTotalAmount();
+				Product p = pr.findById(ids[i]).get();
+				int newQuantity = p.getUnitsInStock()-orderForm.getQuantity();
+				p.setUnitsInStock(newQuantity);
 				wofRepository.save(orderForm);
 			}
 			logger.info("Placed WalkIn Order Successfully");
